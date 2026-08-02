@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Красная нить — двухнедельный интенсив по сторителлингу для тех, кому нужно, чтобы их дослушали до конца.">
+<title>Красная нить — мастерская сторителлинга</title>
+
+<style>
+  /* ---------- Токены ---------- */
+  :root {
+    color-scheme: light dark;
+
+    --ink: #eef0f5; /* холодная бумага */
+    --ink-2: #ffffff; /* приподнятая поверхность */
+    --line: #d3d9e5;
+    --text: #171c2a;
+    --muted: #5a6478;
+    --thread: #c22337; /* красная нить */
+    --thread-dim: rgba(194, 35, 55, 0.22);
+    --glow: rgba(194, 35, 55, 0.1);
+
+    --font-display:
+      "Palatino Linotype", "Book Antiqua", Palatino, "Iowan Old Style", Georgia,
+      serif;
+    --font-ui:
+      Bahnschrift, "DIN Alternate", "Segoe UI Variable Text", "Segoe UI",
+      system-ui, sans-serif;
+
+    --rail: 96px;
+    --step: clamp(56px, 9vw, 116px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #10141f;
+      --ink-2: #171d2c;
+      --line: #28314a;
+      --text: #e7e9f0;
+      --muted: #98a0b8;
+      --thread: #d93b4e;
+      --thread-dim: rgba(217, 59, 78, 0.28);
+      --glow: rgba(217, 59, 78, 0.16);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #10141f;
+    --ink-2: #171d2c;
+    --line: #28314a;
+    --text: #e7e9f0;
+    --muted: #98a0b8;
+    --thread: #d93b4e;
+    --thread-dim: rgba(217, 59, 78, 0.28);
+    --glow: rgba(217, 59, 78, 0.16);
+  }
+
+  :root[data-theme="light"] {
+    --ink: #eef0f5;
+    --ink-2: #ffffff;
+    --line: #d3d9e5;
+    --text: #171c2a;
+    --muted: #5a6478;
+    --thread: #c22337;
+    --thread-dim: rgba(194, 35, 55, 0.22);
+    --glow: rgba(194, 35, 55, 0.1);
+  }
+
+  /* ---------- База ---------- */
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(17px, 1.05vw, 19px);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--thread);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .label {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-stretch: 87.5%;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- Каркас ---------- */
+  .page {
+    position: relative;
+    overflow: clip;
+  }
+
+  .rail {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--rail);
+    height: 100%;
+    display: none;
+    pointer-events: none;
+  }
+
+  .shell {
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+  }
+
+  @media (min-width: 900px) {
+    .rail {
+      display: block;
+    }
+    .page {
+      padding-left: var(--rail);
+    }
+  }
+
+  section {
+    padding-block: var(--step);
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .stack-s {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .prose {
+    max-width: 62ch;
+    color: var(--muted);
+  }
+
+  /* ---------- Шапка ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--ink) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  .topbar[data-stuck="true"] {
+    border-bottom-color: var(--line);
+  }
+
+  .topbar-in {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-block: 18px;
+  }
+
+  .mark {
+    font-family: var(--font-ui);
+    font-stretch: 87.5%;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .mark::before {
+    content: "";
+    width: 26px;
+    height: 2px;
+    background: var(--thread);
+  }
+
+  .nav {
+    display: none;
+    gap: 26px;
+    margin-left: auto;
+  }
+  .nav a {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .nav a:hover {
+    color: var(--text);
+  }
+
+  @media (min-width: 760px) {
+    .nav {
+      display: flex;
+    }
+  }
+
+  /* ---------- Кнопки ---------- */
+  .btn {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    padding: 13px 24px;
+    border: 1px solid var(--thread);
+    background: var(--thread);
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      transform 0.18s ease,
+      opacity 0.18s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--line);
+  }
+  .btn-ghost:hover {
+    border-color: var(--thread);
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+  }
+
+  /* ---------- Первый экран ---------- */
+  .hero {
+    position: relative;
+    padding-block: clamp(64px, 11vw, 140px) var(--step);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -160px;
+    left: -140px;
+    width: 620px;
+    height: 620px;
+    background: radial-gradient(circle, var(--glow), transparent 62%);
+    pointer-events: none;
+  }
+  .hero > * {
+    position: relative;
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 6.4vw, 82px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    max-width: 15ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--thread);
+  }
+  .hero .prose {
+    font-size: clamp(17px, 1.5vw, 21px);
+    color: var(--muted);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Сравнение ---------- */
+  .compare {
+    display: grid;
+    gap: 2px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (min-width: 780px) {
+    .compare {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .compare-col {
+    background: var(--ink);
+    padding: clamp(24px, 3.4vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .compare-col h3 {
+    font-size: 24px;
+  }
+  .compare-col ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--muted);
+  }
+  .compare-col li {
+    padding-left: 22px;
+    position: relative;
+  }
+  .compare-col li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 10px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+  .compare-col.is-ours {
+    background: var(--ink-2);
+  }
+  .compare-col.is-ours li::before {
+    background: var(--thread);
+    opacity: 1;
+    height: 2px;
+  }
+
+  /* ---------- Дуга напряжения ---------- */
+  .arc-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  .arc-svg .curve {
+    fill: none;
+    stroke: var(--thread);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .arc-svg .base {
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .arc-svg .dot {
+    fill: var(--ink);
+    stroke: var(--thread);
+    stroke-width: 2.5;
+  }
+  .arc-svg .num {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    fill: var(--text);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .arc-svg .axis {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    fill: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .beats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border-block: 1px solid var(--line);
+  }
+  .beat {
+    background: var(--ink);
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 4px 18px;
+    padding: 22px 4px;
+    align-items: baseline;
+  }
+  @media (min-width: 720px) {
+    .beat {
+      grid-template-columns: 44px 220px 1fr;
+    }
+  }
+
+  .beat-num {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--thread);
+    font-variant-numeric: tabular-nums;
+  }
+  .beat-name {
+    font-size: 21px;
+  }
+  .beat-text {
+    color: var(--muted);
+    grid-column: 2 / -1;
+  }
+  @media (min-width: 720px) {
+    .beat-text {
+      grid-column: 3 / 4;
+    }
+  }
+
+  /* ---------- Программа ---------- */
+  .modules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .module {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 20px;
+    padding-block: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .modules .module:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .module-name {
+    font-size: clamp(21px, 2.3vw, 28px);
+    flex: 1 1 260px;
+  }
+  .module-text {
+    color: var(--muted);
+    flex: 2 1 320px;
+  }
+  .module-len {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ---------- Цитата ---------- */
+  .quote {
+    border-left: 2px solid var(--thread);
+    padding-left: clamp(20px, 3vw, 36px);
+  }
+  .quote blockquote {
+    margin: 0;
+    font-size: clamp(23px, 3.1vw, 38px);
+    line-height: 1.3;
+    font-style: italic;
+    max-width: 20ch;
+    text-wrap: balance;
+  }
+  .quote figcaption {
+    margin-top: 20px;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- Запись ---------- */
+  .signup {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: clamp(28px, 4.4vw, 56px);
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 860px) {
+    .signup {
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+  }
+
+  .signup h2 {
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.12;
+  }
+
+  .price {
+    font-family: var(--font-ui);
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .price b {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 19px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .field span {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field input {
+    font: inherit;
+    font-size: 17px;
+    color: var(--text);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 10px 2px;
+    transition: border-color 0.2s ease;
+  }
+  .field input:focus {
+    border-bottom-color: var(--thread);
+    outline: none;
+  }
+
+  .form-note {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .form-status {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--thread);
+    min-height: 1.4em;
+  }
+
+  /* ---------- Подвал ---------- */
+  .foot {
+    border-top: 1px solid var(--line);
+    padding-block: 40px 56px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot a {
+    text-decoration: none;
+  }
+  .foot a:hover {
+    color: var(--text);
+  }
+  .foot .sep {
+    margin-left: auto;
+  }
+
+  /* ---------- Появление ---------- */
+  .rise {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .rise.seen {
+    opacity: 1;
+    transform: none;
+  }
+  .rise[data-delay="1"] {
+    transition-delay: 0.09s;
+  }
+  .rise[data-delay="2"] {
+    transition-delay: 0.18s;
+  }
+  .rise[data-delay="3"] {
+    transition-delay: 0.27s;
+  }
+  .rise[data-delay="4"] {
+    transition-delay: 0.36s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .btn:hover {
+      transform: none;
+    }
+    * {
+      scroll-behavior: auto !important;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+</style>
+
+</head>
+<body>
+<div class="page" id="page">
+  <canvas class="rail" id="rail" aria-hidden="true"></canvas>
+
+  <header class="topbar" id="topbar">
+    <div class="shell topbar-in">
+      <a class="mark" href="#top">Красная нить</a>
+      <nav class="nav">
+        <a href="#arc">Дуга</a>
+        <a href="#program">Программа</a>
+        <a href="#signup">Запись</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell stack">
+        <p class="label rise">Мастерская сторителлинга · Поток №14</p>
+        <h1 class="rise" data-delay="1" data-knot data-amp="0">
+          Факты забывают.<br />Помнят, <em>чем всё кончилось</em>.
+        </h1>
+        <p class="prose rise" data-delay="2">
+          Двухнедельный интенсив для тех, кому нужно, чтобы их дослушали до
+          конца: основателей, маркетологов, продактов и всех, кто выходит к
+          людям с текстом или со слайдами.
+        </p>
+        <div class="btn-row rise" data-delay="3">
+          <a class="btn" href="#signup">Записаться на поток</a>
+          <a class="btn btn-ghost" href="#program">Посмотреть программу</a>
+        </div>
+        <p class="meta rise" data-delay="4">
+          <span>Старт 15 сентября</span>
+          <span>10 занятий по 2 часа</span>
+          <span>Группа 12 человек</span>
+        </p>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="shell stack">
+        <p class="label rise">В чём разница</p>
+        <h2
+          class="rise"
+          data-delay="1"
+          data-knot
+          data-amp="-0.55"
+          style="
+            font-size: clamp(28px, 3.8vw, 46px);
+            line-height: 1.14;
+            max-width: 18ch;
+          "
+        >
+          Одни и те же данные можно подать так, что их перескажут — или так, что
+          их пролистают
+        </h2>
+        <div class="compare rise" data-delay="2">
+          <div class="compare-col">
+            <h3>Как обычно</h3>
+            <ul>
+              <li>Начинают с себя: «мы основаны в 2019 году»</li>
+              <li>Список пунктов без героя и без ставки</li>
+              <li>Всё ровно: ни напряжения, ни поворота</li>
+              <li>Вывод остаётся в голове у автора</li>
+            </ul>
+          </div>
+          <div class="compare-col is-ours">
+            <h3>Как на курсе</h3>
+            <ul>
+              <li>Начинают с человека и его проблемы</li>
+              <li>У каждой истории есть цена ошибки</li>
+              <li>Напряжение растёт и разрешается</li>
+              <li>Мысль звучит вслух — и её повторяют за вами</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="arc">
+      <div class="shell stack">
+        <p class="label rise">Инструмент №1</p>
+        <h2
+          class="rise"
+          data-delay="1"
+          data-knot
+          data-amp="0.4"
+          style="font-size: clamp(28px, 3.8vw, 46px); line-height: 1.14"
+        >
+          Дуга напряжения
+        </h2>
+        <p class="prose rise" data-delay="2">
+          Любая история, которую дослушивают, держится на одной кривой:
+          напряжение растёт, доходит до точки, где решается всё, и отпускает.
+          Пять опор — и текст перестаёт быть перечислением.
+        </p>
+
+        <div class="rise" data-delay="3">
+          <svg
+            class="arc-svg"
+            viewBox="0 0 820 250"
+            role="img"
+            aria-label="Кривая напряжения истории: от экспозиции через развитие к кульминации и развязке"
+          >
+            <line class="base" x1="40" y1="222" x2="800" y2="222"></line>
+            <path
+              class="curve"
+              d="M60 208 C 120 205, 160 200, 210 192 C 300 178, 350 148, 430 118 C 520 84, 570 62, 630 34 C 676 62, 700 140, 770 186"
+            ></path>
+
+            <circle class="dot" cx="60" cy="208" r="9"></circle>
+            <circle class="dot" cx="210" cy="192" r="9"></circle>
+            <circle class="dot" cx="430" cy="118" r="9"></circle>
+            <circle class="dot" cx="630" cy="34" r="9"></circle>
+            <circle class="dot" cx="770" cy="186" r="9"></circle>
+
+            <text class="num" x="60" y="208">1</text>
+            <text class="num" x="210" y="192">2</text>
+            <text class="num" x="430" y="118">3</text>
+            <text class="num" x="630" y="34">4</text>
+            <text class="num" x="770" y="186">5</text>
+
+            <text class="axis" x="40" y="243">начало</text>
+            <text class="axis" x="800" y="243" text-anchor="end">конец</text>
+          </svg>
+        </div>
+
+        <ol class="beats rise" data-delay="4">
+          <li class="beat">
+            <span class="beat-num">01</span>
+            <span class="beat-name">Экспозиция</span>
+            <span class="beat-text"
+              >Кто герой и что для него нормально. Коротко — иначе слушатель
+              уйдёт до завязки.</span
+            >
+          </li>
+          <li class="beat">
+            <span class="beat-num">02</span>
+            <span class="beat-name">Завязка</span>
+            <span class="beat-text"
+              >Событие, после которого жить по-старому нельзя. Здесь появляется
+              ставка.</span
+            >
+          </li>
+          <li class="beat">
+            <span class="beat-num">03</span>
+            <span class="beat-name">Развитие</span>
+            <span class="beat-text"
+              >Попытки, ошибки, сопротивление. С каждым шагом цена решения
+              растёт.</span
+            >
+          </li>
+          <li class="beat">
+            <span class="beat-num">04</span>
+            <span class="beat-name">Кульминация</span>
+            <span class="beat-text"
+              >Момент, где решается всё. Одна сцена, одна фраза, один
+              выбор.</span
+            >
+          </li>
+          <li class="beat">
+            <span class="beat-num">05</span>
+            <span class="beat-name">Развязка</span>
+            <span class="beat-text"
+              >Новая норма — и мысль, ради которой всё затевалось. Её и
+              запомнят.</span
+            >
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="program">
+      <div class="shell stack">
+        <p class="label rise">Программа</p>
+        <h2
+          class="rise"
+          data-delay="1"
+          data-knot
+          data-amp="-0.3"
+          style="font-size: clamp(28px, 3.8vw, 46px); line-height: 1.14"
+        >
+          Четыре модуля, десять занятий
+        </h2>
+        <p class="prose rise" data-delay="2">
+          Каждое занятие — короткая теория и разбор ваших текстов вслух. К
+          финалу у вас есть готовое выступление и три истории, которые можно
+          рассказывать хоть завтра.
+        </p>
+        <ol class="modules rise" data-delay="3">
+          <li class="module">
+            <span class="module-name">Герой и ставка</span>
+            <span class="module-text"
+              >Кому сопереживают и почему. Как найти героя в отчёте о
+              продажах.</span
+            >
+            <span class="module-len">3 занятия</span>
+          </li>
+          <li class="module">
+            <span class="module-name">Структура и ритм</span>
+            <span class="module-text"
+              >Дуга напряжения на практике. Где резать, где замедлять, чем
+              заканчивать.</span
+            >
+            <span class="module-len">3 занятия</span>
+          </li>
+          <li class="module">
+            <span class="module-name">Голос и деталь</span>
+            <span class="module-text"
+              >Одна точная деталь вместо трёх прилагательных. Свой тон вместо
+              корпоративного.</span
+            >
+            <span class="module-len">2 занятия</span>
+          </li>
+          <li class="module">
+            <span class="module-name">Сцена</span>
+            <span class="module-text"
+              >Выступление перед группой, запись на видео и разбор — по кадрам и
+              по паузам.</span
+            >
+            <span class="module-len">2 занятия</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="quote">
+      <div class="shell">
+        <figure class="quote rise" data-knot data-amp="0.8">
+          <blockquote>
+            Я перестала защищать презентацию. Теперь её просто слушают.
+          </blockquote>
+          <figcaption>Марина, руководитель продукта · поток №11</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="signup">
+      <div class="shell">
+        <div class="signup rise" data-knot data-amp="0.05">
+          <div class="stack">
+            <p class="label">Ближайший поток</p>
+            <h2>Старт 15 сентября. Осталось 12 мест.</h2>
+            <p class="prose">
+              Занятия по вторникам и четвергам, 19:00 по Москве. Записи остаются
+              навсегда, разборы — только вживую.
+            </p>
+            <p class="price">
+              <b>38 000 ₽</b> &nbsp;·&nbsp; до 20 августа — 32 000 ₽
+            </p>
+          </div>
+
+          <form class="stack-s" id="form" novalidate>
+            <label class="field">
+              <span>Как вас зовут</span>
+              <input
+                type="text"
+                name="name"
+                id="f-name"
+                autocomplete="name"
+                required
+              />
+            </label>
+            <label class="field">
+              <span>Почта для приглашения</span>
+              <input
+                type="email"
+                name="email"
+                id="f-email"
+                autocomplete="email"
+                required
+              />
+            </label>
+            <div class="btn-row" style="margin-top: 10px">
+              <button class="btn" type="submit">Забронировать место</button>
+            </div>
+            <p
+              class="form-status"
+              id="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <p class="form-note">
+              Форма демонстрационная: заявка никуда не отправляется. На боевом
+              сайте сюда подключается почта или CRM.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell foot">
+      <span>Красная нить — мастерская сторителлинга</span>
+      <a href="#top" class="sep">Наверх ↑</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    /* --- Появление блоков при прокрутке --- */
+    var risers = document.querySelectorAll(".rise");
+    if (reduce || !("IntersectionObserver" in window)) {
+      risers.forEach(function (el) {
+        el.classList.add("seen");
+      });
+    } else {
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add("seen");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -12% 0px", threshold: 0.06 },
+      );
+      risers.forEach(function (el) {
+        io.observe(el);
+      });
+    }
+
+    /* --- Граница у шапки после прокрутки --- */
+    var topbar = document.getElementById("topbar");
+    function stuck() {
+      topbar.dataset.stuck = window.scrollY > 8 ? "true" : "false";
+    }
+    stuck();
+
+    /* --- Красная нить: кривая, сшивающая страницу --- */
+    var canvas = document.getElementById("rail");
+    var page = document.getElementById("page");
+    var ctx = canvas.getContext("2d");
+    var knots = [];
+    var W = 0,
+      H = 0;
+
+    function css(name) {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(name)
+        .trim();
+    }
+
+    function layout() {
+      if (!canvas.offsetParent) return false;
+      var rect = canvas.getBoundingClientRect();
+      var pageTop = page.getBoundingClientRect().top + window.scrollY;
+      W = rect.width;
+      H = page.offsetHeight;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var pad = 22;
+      var mid = W / 2;
+      var span = mid - pad;
+
+      knots = [{ x: mid, y: 0 }];
+      document.querySelectorAll("[data-knot]").forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        var amp = parseFloat(el.getAttribute("data-amp") || "0");
+        knots.push({
+          x: mid + amp * span,
+          y: r.top + window.scrollY - pageTop + r.height / 2,
+          mark: true,
+        });
+      });
+      knots.push({ x: mid, y: H });
+      return true;
+    }
+
+    function trace() {
+      ctx.beginPath();
+      ctx.moveTo(knots[0].x, knots[0].y);
+      for (var i = 1; i < knots.length; i++) {
+        var a = knots[i - 1],
+          b = knots[i];
+        var dy = (b.y - a.y) * 0.42;
+        ctx.bezierCurveTo(a.x, a.y + dy, b.x, b.y - dy, b.x, b.y);
+      }
+    }
+
+    function draw() {
+      if (!W || !H) return;
+      var thread = css("--thread");
+      var dim = css("--thread-dim");
+      var ink = css("--ink");
+
+      ctx.clearRect(0, 0, W, H);
+
+      ctx.lineWidth = 1.5;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = dim;
+      trace();
+      ctx.stroke();
+
+      var pageTop = page.getBoundingClientRect().top + window.scrollY;
+      var reach = reduce
+        ? H
+        : window.scrollY + window.innerHeight * 0.72 - pageTop;
+      reach = Math.max(0, Math.min(H, reach));
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, W, reach);
+      ctx.clip();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = thread;
+      trace();
+      ctx.stroke();
+      ctx.restore();
+
+      knots.forEach(function (k) {
+        if (!k.mark) return;
+        var live = k.y <= reach;
+        ctx.beginPath();
+        ctx.arc(k.x, k.y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = ink;
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = live ? thread : dim;
+        ctx.stroke();
+      });
+    }
+
+    var queued = false;
+    function onScroll() {
+      stuck();
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        draw();
+      });
+    }
+
+    function rebuild() {
+      if (layout()) draw();
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", rebuild);
+    if (window.ResizeObserver) new ResizeObserver(rebuild).observe(page);
+    rebuild();
+    window.addEventListener("load", rebuild);
+
+    /* --- Демо-форма --- */
+    var form = document.getElementById("form");
+    var status = document.getElementById("form-status");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var name = document.getElementById("f-name").value.trim();
+      var mail = document.getElementById("f-email").value.trim();
+      if (!name || !/.+@.+\..+/.test(mail)) {
+        status.textContent =
+          "Впишите имя и почту — иначе некуда прислать приглашение.";
+        return;
+      }
+      status.textContent =
+        name +
+        ", место придержим. Приглашение придёт на " +
+        mail +
+        " в течение дня.";
+      form.querySelector("button").disabled = true;
+    });
+  })();
+</script>
+
+</body>
+</html>
