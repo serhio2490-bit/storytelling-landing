@@ -997,6 +997,33 @@
           risers.forEach(function (el) {
             io.observe(el);
           });
+
+          /* Страховка. Наблюдатель не присылает первое уведомление, если вкладка
+             в момент загрузки скрыта: в фоновых вкладках браузер не выполняет шаг
+             отрисовки. Человек открывает такую вкладку и видит пустой первый экран.
+             Через 3 секунды показываем всё, что уже находится в пределах экрана;
+             блоки ниже сгиба продолжают появляться при прокрутке, как задумано. */
+          setTimeout(function () {
+            risers.forEach(function (el) {
+              if (el.classList.contains("seen")) return;
+              var r = el.getBoundingClientRect();
+              if (r.top < window.innerHeight && r.bottom > 0) {
+                el.classList.add("seen");
+                io.unobserve(el);
+              }
+            });
+          }, 3000);
+
+          /* Второй рубеж: если через 8 секунд не проявился вообще ни один блок,
+             значит наблюдатель не работает совсем. Тогда показываем страницу
+             целиком — текст важнее анимации. */
+          setTimeout(function () {
+            if (document.querySelector(".rise.seen")) return;
+            risers.forEach(function (el) {
+              el.classList.add("seen");
+              io.unobserve(el);
+            });
+          }, 8000);
         }
 
         /* --- Граница у шапки после прокрутки --- */
