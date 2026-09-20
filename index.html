@@ -5,31 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Красная нить — двухнедельный интенсив по сторителлингу для тех, кому нужно, чтобы их дослушали до конца."
+      content="Красная нить: двухнедельный интенсив по сторителлингу для тех, кому нужно, чтобы их дослушали до конца."
     />
-    <title>Красная нить — мастерская сторителлинга</title>
+    <title>Красная нить · мастерская сторителлинга</title>
 
-    <!-- Основной адрес страницы -->
     <link
       rel="canonical"
       href="https://serhio2490-bit.github.io/storytelling-landing/"
     />
 
-    <!-- Иконки -->
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <meta name="theme-color" content="#c22337" />
+    <meta name="theme-color" content="#0B0E16" />
 
-    <!-- Карточка ссылки в мессенджерах и соцсетях.
-     ВАЖНО: адрес og:image обязан быть абсолютным — относительный не подтягивается.
-     Поэтому при смене домена или переименовании проекта нужно поправить
-     og:url и og:image, иначе превью отвалится молча, без ошибок в консоли. -->
+    <!-- Шрифты лежат в fonts/ рядом со страницей. Ни одного обращения
+         к чужому домену: посетитель не оставляет свой IP на сервисе,
+         о котором он не просил. Заранее просим только те два файла,
+         без которых первый экран не нарисуется. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="fonts/oranienbaum-400-cyr.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="fonts/golos-400-cyr.woff2"
+      crossorigin
+    />
+
+    <!-- ШАГ ПРИ ВЫКЛАДКЕ: og:url и og:image обязаны быть абсолютными.
+         При смене домена или имени папки поправить оба адреса, иначе превью
+         отвалится молча. Картинку og.jpg надо перерисовать под тёмный макет. -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="Красная нить" />
-    <!-- og:title намеренно без слов «Красная нить»: мессенджеры печатают
-         сначала og:site_name, потом og:title, и одинаковое начало задваивается -->
     <meta property="og:title" content="Мастерская сторителлинга" />
     <meta
       property="og:description"
@@ -52,693 +66,2889 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <style>
-      /* ---------- Токены ---------- */
+      /* Hallmark · macrostructure: Long Document · genre: editorial
+       * tone: editorial / «натяжение» · anchor hue: crimson ~356°
+       * theme: custom (paper #0b0e16 · accent #e23a4e · Oranienbaum + Golos Text)
+       * nav: N9 edge-aligned + указатель текущего раздела · footer: Ft2 inline
+       * enrichment: none photographic — нить первого экрана нарисована кодом
+       * contrast: pass (40–41) · tokens: pass (48) · chrome: pass (47)
+       * responsive: pass (34, 49, 50–57) · icons: pass (30)
+       * Страница написана вручную, затем прогнана через hallmark audit
+       * 21.09.2026: было 0 critical · 9 major · 6 minor, исправлено всё.
+       */
+      /* ============================================================
+         ТОКЕНЫ
+         Холст уведён в синь, чистого чёрного нет.
+         Малиновый живёт в трёх местах: нить, кнопка, фокус.
+         ============================================================ */
+      /* ============================================================
+         ШРИФТЫ ЛЕЖАТ У НАС
+         Раньше грузились с fonts.googleapis.com: браузер каждого
+         посетителя ходил на зарубежный сервис и отдавал ему свой IP.
+         Теперь файлы свои, чужих запросов на странице ноль.
+         Подрезаны под символы этой страницы с запасом на всю кириллицу
+         и базовую латиницу: 342 КБ исходных субсетов → 168 КБ, и то
+         не всё: unicode-range заставляет браузер взять только нужное.
+         Диапазоны посчитаны по настоящему набору символов каждого
+         файла, а не переписаны у Google: в их диапазонах нет ни рубля,
+         ни стрелки, и эти два знака подхватывались системным шрифтом.
+         ============================================================ */
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/golos-400-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/golos-400-lat.woff2") format("woff2");
+        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+      }
+
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/golos-400-latx.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+20BD;
+      }
+
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/golos-500-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/golos-500-lat.woff2") format("woff2");
+        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+      }
+
+      @font-face {
+        font-family: "Golos Text";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/golos-500-latx.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+20BD;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/jbmono-400-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/jbmono-400-lat.woff2") format("woff2");
+        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/jbmono-400-latx.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+20BD;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/jbmono-500-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/jbmono-500-lat.woff2") format("woff2");
+        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+      }
+
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/jbmono-500-latx.woff2") format("woff2");
+        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+20BD;
+      }
+
+      @font-face {
+        font-family: "Oranienbaum";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/oranienbaum-400-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+00A0, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+
+      @font-face {
+        font-family: "Oranienbaum";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/oranienbaum-400-lat.woff2") format("woff2");
+        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0412-0414, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A;
+      }
+
+      /* У Oranienbaum знака рубля нет вовсе: цена «38 000 ₽» набиралась
+         антиквой до знака и системным шрифтом после него, и на каждой
+         машине по-своему. Подставляем рубль из Golos прямо в семейство
+         дисплея — теперь он одинаковый везде. */
+      @font-face {
+        font-family: "Oranienbaum";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/golos-400-latx.woff2") format("woff2");
+        unicode-range: U+20BD;
+      }
+
       :root {
-        color-scheme: light dark;
+        --canvas: #0b0e16;
+        --canvas-deep: #070a11;
+        --panel: #111624;
+        --panel-2: #161c2c;
+        --line: #222b3e;
+        --line-strong: #566180;
+        --text: #ede9e2;
+        --muted: #a2aabc;
+        --accent: #e23a4e;
+        /* Тот же красный, но на полтона темнее: он стоит только там,
+           где поверх лежат белые буквы. Замер: белое на #e23a4e даёт
+           4,24:1 при норме 4,5:1, на #d63346 — 4,75:1. Глазом разницы
+           между ними нет, а кнопка перестаёт быть нарушением. */
+        --accent-ink: #d63346;
+        /* Красный для МЕЛКОГО текста на тёмном. На холсте #e23a4e даёт
+           4,45:1, а поверх фоновой подсветки секций проседает до 3,79:1
+           при норме 4,5:1. #ee5668 держит 4,72:1 в самом тяжёлом месте.
+           Линии, нить и крупные заголовки остаются на #e23a4e. */
+        --accent-text: #ee5668;
+        /* Цвет нажатия. Нужен, чтобы у кнопки было видимое :active,
+           а не только наведение: на тачскрине наведения не бывает
+           вообще, и без этого состояния кнопка не отвечает на палец. */
+        --accent-press: #b52a3c;
+        --on-accent: #fff; /* буквы поверх красной заливки */
+        --spark: #ffe3d6; /* самая светлая точка: бегунок, голова дуги */
+        --amber: #e8a24c; /* тёплый конец градиента нити */
+        --accent-deep: #8d2740; /* холодный конец того же градиента */
+        --steel: #34608f; /* единственный синий; было два похожих */
+        --muted-deep: #838b9e; /* подписи третьего плана */
+        --ribbon-dim: #222a3c; /* непройденная часть нити */
+        --mask-on: #000; /* «непрозрачно» для mask-image, не цвет */
 
-        --ink: #eef0f5; /* холодная бумага */
-        --ink-2: #ffffff; /* приподнятая поверхность */
-        --line: #d3d9e5;
-        --text: #171c2a;
-        --muted: #5a6478;
-        --thread: #c22337; /* красная нить */
-        --thread-dim: rgba(194, 35, 55, 0.22);
-        --glow: rgba(194, 35, 55, 0.1);
+        /* Каналы для полупрозрачных слоёв. Один источник правды:
+           поменяется --accent — поменяются все шестьдесят его оттенков. */
+        --accent-rgb: 226 58 78;
+        --canvas-rgb: 11 14 22;
+        --deep-rgb: 7 10 17;
+        --panel-rgb: 17 22 36;
+        --text-rgb: 237 233 226;
+        --amber-rgb: 232 162 76;
+        --steel-rgb: 52 96 150;
+        --on-accent-rgb: 255 255 255;
+        --void-rgb: 9 11 18;
+        --spark-rgb: 255 225 215;
+        --strand-rgb: 232 74 92; /* тело нити на холсте, чуть светлее акцента */
+        --heroglow-rgb: 52 26 34; /* тёплое пятно позади заголовка */
 
-        --font-display:
-          "Palatino Linotype", "Book Antiqua", Palatino, "Iowan Old Style",
-          Georgia, serif;
-        --font-ui:
-          Bahnschrift, "DIN Alternate", "Segoe UI Variable Text", "Segoe UI",
-          system-ui, sans-serif;
+        /* Кривые. Голый `ease` — браузерная кривая по умолчанию,
+           она одинакова на всех сайтах мира и потому не читается. */
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+        --ease-line: cubic-bezier(0.2, 0.8, 0.2, 1);
+        --ease-settle: cubic-bezier(0.22, 1.08, 0.36, 1);
+        --accent-hover: #f04c5f;
+        --accent-soft: rgb(var(--accent-rgb) / 0.2);
 
-        --rail: 96px;
-        --step: clamp(56px, 9vw, 116px);
+        --display: Oranienbaum, "Playfair Display", Georgia, serif;
+        --body: "Golos Text", "Segoe UI", system-ui, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+
+        --rail: 84px;
+        --shell: 1140px;
+        --gap: clamp(72px, 10vw, 148px);
+
+        /* Шкала отступов. Шаг сетки — 2 пикселя: страница набрана
+           антиквой и моно-подписями, оптические пары у них ложатся
+           на чётный шаг в 2, а не в 4. Девять значений выбивались
+           из сетки (7, 9, 11, 13, 15, 3) — подтянуты. */
+        --space-3xs: 4px;
+        --space-2xs: 8px;
+        --space-xs: 12px;
+        --space-sm: 16px;
+        --space-md: 22px;
+        --space-lg: 30px;
+        --space-xl: 46px;
+        --space-2xl: 70px;
+        --space-3xl: 90px;
+        --hair: 1px; /* волосяная линия, это не отступ */
+        --tap: 44px; /* минимальная цель под палец */
+        --header-h: 71px; /* высота закреплённой шапки, её съедает верх героя */
       }
 
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --ink: #10141f;
-          --ink-2: #171d2c;
-          --line: #28314a;
-          --text: #e7e9f0;
-          --muted: #98a0b8;
-          --thread: #d93b4e;
-          --thread-dim: rgba(217, 59, 78, 0.28);
-          --glow: rgba(217, 59, 78, 0.16);
-        }
-      }
-
-      :root[data-theme="dark"] {
-        --ink: #10141f;
-        --ink-2: #171d2c;
-        --line: #28314a;
-        --text: #e7e9f0;
-        --muted: #98a0b8;
-        --thread: #d93b4e;
-        --thread-dim: rgba(217, 59, 78, 0.28);
-        --glow: rgba(217, 59, 78, 0.16);
-      }
-
-      :root[data-theme="light"] {
-        --ink: #eef0f5;
-        --ink-2: #ffffff;
-        --line: #d3d9e5;
-        --text: #171c2a;
-        --muted: #5a6478;
-        --thread: #c22337;
-        --thread-dim: rgba(194, 35, 55, 0.22);
-        --glow: rgba(194, 35, 55, 0.1);
-      }
-
-      /* ---------- База ---------- */
       * {
         box-sizing: border-box;
       }
 
+      html {
+        overflow-x: clip;
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        background: var(--ink);
+        background: var(--canvas);
         color: var(--text);
-        font-family: var(--font-display);
-        font-size: clamp(17px, 1.05vw, 19px);
+        font-family: var(--body);
+        font-size: clamp(16px, 1.05vw, 17.5px);
         line-height: 1.62;
         -webkit-font-smoothing: antialiased;
+        /* clip, а не hidden: hidden создаёт прокручиваемый контейнер
+           и ломает position: sticky у потомков. clip просто отрезает. */
+        overflow-x: clip;
       }
 
-      h1,
-      h2,
-      h3 {
-        font-family: var(--font-display);
-        font-weight: 400;
-        text-wrap: balance;
-        margin: 0;
-      }
-      p {
-        margin: 0;
-      }
-      a {
-        color: inherit;
-      }
-
-      :focus-visible {
-        outline: 2px solid var(--thread);
-        outline-offset: 3px;
-        border-radius: 2px;
-      }
-
-      .label {
-        font-family: var(--font-ui);
-        font-size: 12px;
-        font-stretch: 87.5%;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-
-      /* ---------- Каркас ---------- */
-      .page {
-        position: relative;
-        overflow: clip;
-      }
-
-      .rail {
-        position: absolute;
-        inset: 0 auto 0 0;
-        width: var(--rail);
-        height: 100%;
-        display: none;
+      /* ============================================================
+         СЛОЙ-СРЕДА
+         Одно пятно света дрейфует 90 секунд и зерно поверх.
+         Страница читается как одно место, а не стопка секций.
+         ============================================================ */
+      .env {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
         pointer-events: none;
       }
 
+      .env::before {
+        content: "";
+        position: absolute;
+        inset: -30%;
+        background:
+          radial-gradient(
+            38% 34% at 22% 18%,
+            rgb(var(--accent-rgb) / 0.13),
+            transparent 70%
+          ),
+          radial-gradient(
+            44% 40% at 78% 72%,
+            rgb(var(--steel-rgb) / 0.12),
+            transparent 72%
+          );
+        animation: drift 96s var(--ease-in-out) infinite alternate;
+      }
+
+      .env::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0.045;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        50% {
+          transform: translate3d(3%, -4%, 0) scale(1.08);
+        }
+        100% {
+          transform: translate3d(-4%, 3%, 0) scale(1.03);
+        }
+      }
+
+      /* Нить. Рисуется кодом, физика верле, лежит под контентом. */
+      #thread {
+        position: fixed;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      /* Свет за курсором: темнота перестаёт быть мёртвой. */
+      .torch {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 720px;
+        height: 720px;
+        margin: -360px 0 0 -360px;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.6s var(--ease-out);
+        background: radial-gradient(
+          circle closest-side,
+          rgb(var(--accent-rgb) / 0.17),
+          rgb(var(--accent-rgb) / 0.06) 45%,
+          transparent 72%
+        );
+      }
+
+      .torch.lit {
+        opacity: 1;
+      }
+
+      @media (pointer: coarse) {
+        .torch {
+          display: none;
+        }
+      }
+
+      .page {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* ============================================================
+         КАРКАС
+         ============================================================ */
       .shell {
-        max-width: 1120px;
-        margin-inline: auto;
-        padding-inline: clamp(20px, 5vw, 56px);
+        width: min(var(--shell), 100%);
+        margin: 0 auto;
+        padding-inline: clamp(20px, 5vw, 40px);
+      }
+
+      /* На узких экранах левое поле шире правого: нить идёт вдоль края
+         и не должна касаться букв. */
+      @media (max-width: 899px) {
+        .shell {
+          padding-left: clamp(30px, 8vw, 44px);
+        }
       }
 
       @media (min-width: 900px) {
-        .rail {
-          display: block;
-        }
-        .page {
-          padding-left: var(--rail);
+        .shell {
+          padding-left: calc(var(--rail) + 32px);
         }
       }
 
       section {
-        padding-block: var(--step);
+        padding-block: var(--gap);
+        position: relative;
+        isolation: isolate;
       }
 
-      .stack {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-      .stack-s {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .prose {
-        max-width: 62ch;
-        color: var(--muted);
+      .shell {
+        position: relative;
+        z-index: 1;
       }
 
-      /* ---------- Шапка ---------- */
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        background: color-mix(in srgb, var(--ink) 88%, transparent);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid transparent;
-        transition: border-color 0.3s ease;
-      }
-      .topbar[data-stuck="true"] {
-        border-bottom-color: var(--line);
-      }
-
-      .topbar-in {
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        padding-block: 18px;
+      /* ---------- Фоновые кадры ----------
+         Картинки обесцвечены заранее при пережатии, браузеру остаётся
+         только подкрасить и притемнить края. Параллакс двигает слой
+         медленнее страницы, отсюда ощущение глубины. */
+      .bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.4s var(--ease-out);
       }
 
-      .mark {
-        font-family: var(--font-ui);
-        font-stretch: 87.5%;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        font-size: 13px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
+      .bg.in {
+        opacity: 1;
       }
-      .mark::before {
+
+      .bg i {
+        position: absolute;
+        inset: -16% 0;
+        display: block;
+        background-size: cover;
+        background-position: center;
+        transform: translate3d(0, var(--p, 0px), 0);
+      }
+
+      /* Лёгкая подкраска, только чтобы три кадра читались одной серией.
+         Была 0,3 — на новых кадрах это убивало их собственный янтарь. */
+      .bg u {
+        position: absolute;
+        inset: 0;
+        display: block;
+        background: var(--accent);
+        mix-blend-mode: color;
+        opacity: 0.12;
+      }
+
+      /* Три слоя затемнения. Средний держит текст по всей полосе,
+         радиальный добивает левую колонку, где стоят буквы.
+         Цифры подобраны не на глаз: контраст каждого абзаца над
+         настоящими пикселями кадра меряется скриптом, пока самый
+         слабый не уйдёт выше 4,5:1. */
+      .bg::after {
         content: "";
-        width: 26px;
-        height: 2px;
-        background: var(--thread);
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            to bottom,
+            var(--canvas) 0%,
+            rgb(var(--canvas-rgb) / 0.6) 26%,
+            rgb(var(--canvas-rgb) / 0.6) 74%,
+            var(--canvas) 100%
+          ),
+          radial-gradient(
+            120% 95% at 22% 50%,
+            rgb(var(--canvas-rgb) / 0.93),
+            rgb(var(--canvas-rgb) / 0.34) 74%
+          );
       }
 
-      .nav {
-        display: none;
-        gap: 26px;
-        margin-left: auto;
+      .bg-a1 i {
+        background-image: url("img/a1-900.webp");
+        opacity: 0.9;
       }
-      .nav a {
-        font-family: var(--font-ui);
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--muted);
-        text-decoration: none;
-        transition: color 0.2s ease;
+      .bg-b1 i {
+        background-image: url("img/b1-900.webp");
+        opacity: 0.9;
       }
-      .nav a:hover {
-        color: var(--text);
+      /* Дверь со светом — самый яркий кадр серии, ей нужно больше всех. */
+      .bg-c1 i {
+        background-image: url("img/c1-900.webp");
+        opacity: 0.5;
       }
 
-      @media (min-width: 760px) {
-        .nav {
-          display: flex;
+      @media (min-width: 900px) {
+        .bg-a1 i {
+          background-image: url("img/a1-1600.webp");
+        }
+        .bg-b1 i {
+          background-image: url("img/b1-1600.webp");
+        }
+        .bg-c1 i {
+          background-image: url("img/c1-1600.webp");
         }
       }
 
-      /* ---------- Кнопки ---------- */
+      /* ТЕЛЕФОН: кадр обязан быть вертикальным.
+         Колонка на телефоне это 390 на 1260 пикселей, то есть один
+         к трём. Горизонтальный кадр 16:9 в такую колонку влезает
+         только серединной полоской: сюжет — стулья, перо, дверь —
+         оказывается срезан, и остаётся тёмное пятно непонятно о чём.
+         Поэтому для телефона отдельные кадры 3:4, обрезанные по
+         сюжету, и сам слой не на всю секцию, а полосой сверху:
+         фотография вводит раздел, текст читается под ней на холсте. */
+      @media (max-width: 700px) {
+        .bg {
+          height: min(46svh, 420px);
+          bottom: auto;
+        }
+        .bg-a1 i {
+          background-image: url("img/a1-mob.webp");
+        }
+        .bg-b1 i {
+          background-image: url("img/b1-mob.webp");
+        }
+        .bg-c1 i {
+          background-image: url("img/c1-mob.webp");
+          opacity: 0.48;
+        }
+        /* Затемнение на телефоне сильнее, чем на большом экране:
+           колонка текста занимает всю ширину, спрятать её в тёмную
+           часть кадра некуда. Замер на 320: подзаголовок финала давал
+           3,73:1 при норме 4,5 — отсюда эти доли. */
+        .bg::after {
+          background: linear-gradient(
+            to bottom,
+            rgb(var(--canvas-rgb) / 0.6) 0%,
+            rgb(var(--canvas-rgb) / 0.62) 40%,
+            rgb(var(--canvas-rgb) / 0.93) 76%,
+            var(--canvas) 100%
+          );
+        }
+      }
+
+      /* ============================================================
+         СРЕДА СЕКЦИЙ
+         У трёх секций есть фотография. Остальные семь были плоскими,
+         и страница читалась как стопка блоков. Фон им нарисован кодом,
+         по смыслу каждой: ни одного лишнего килобайта и ни одного
+         лишнего кадра — это чистый CSS, он не считается и не двигается.
+         Все слои держатся в диапазоне 0,04–0,14 по прозрачности:
+         это воздух, а не картинка, поэтому текст поверх не страдает.
+         ============================================================ */
+      .amb::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        /* Края растворяются, чтобы секции перетекали друг в друга. */
+        -webkit-mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          var(--mask-on) 14%,
+          var(--mask-on) 86%,
+          transparent
+        );
+        mask-image: linear-gradient(
+          to bottom,
+          transparent,
+          var(--mask-on) 14%,
+          var(--mask-on) 86%,
+          transparent
+        );
+      }
+
+      /* «Разница»: слева шум из пересекающихся штрихов, справа тот же
+         штрих, но в одном направлении. Беспорядок против порядка —
+         ровно то, о чём говорят две колонки. */
+      .amb-noise::before {
+        background:
+          radial-gradient(
+            70% 90% at 78% 50%,
+            rgb(var(--accent-rgb) / 0.1),
+            transparent 72%
+          ),
+          repeating-linear-gradient(
+              28deg,
+              rgb(var(--text-rgb) / 0.05) 0 1px,
+              transparent 1px 13px
+            )
+            left center / 50% 100% no-repeat,
+          repeating-linear-gradient(
+              -34deg,
+              rgb(var(--text-rgb) / 0.05) 0 1px,
+              transparent 1px 17px
+            )
+            left center / 50% 100% no-repeat,
+          repeating-linear-gradient(
+              90deg,
+              rgb(var(--amber-rgb) / 0.07) 0 1px,
+              transparent 1px 26px
+            )
+            right center / 50% 100% no-repeat;
+      }
+
+      /* Цитата: одно пятно тёплого света, как прожектор на пустой сцене. */
+      .amb-pool::before {
+        background: radial-gradient(
+          58% 78% at 62% 50%,
+          rgb(var(--amber-rgb) / 0.13),
+          rgb(var(--accent-rgb) / 0.05) 46%,
+          transparent 74%
+        );
+      }
+
+      /* Дуга: координатная сетка. Инструмент лежит на миллиметровке. */
+      .amb-grid::before {
+        background:
+          radial-gradient(
+            60% 70% at 50% 44%,
+            rgb(var(--accent-rgb) / 0.09),
+            transparent 70%
+          ),
+          repeating-linear-gradient(
+            90deg,
+            rgb(var(--text-rgb) / 0.045) 0 1px,
+            transparent 1px 56px
+          ),
+          repeating-linear-gradient(
+            0deg,
+            rgb(var(--text-rgb) / 0.045) 0 1px,
+            transparent 1px 56px
+          );
+      }
+
+      /* Занятие: круги, расходящиеся от того, кто говорит, к залу. */
+      .amb-rings::before {
+        background:
+          radial-gradient(
+            50% 70% at 10% 50%,
+            rgb(var(--amber-rgb) / 0.1),
+            transparent 72%
+          ),
+          repeating-radial-gradient(
+            circle at 8% 50%,
+            transparent 0 54px,
+            rgb(var(--text-rgb) / 0.055) 54px 55px
+          );
+      }
+
+      /* Ведущая: косой столб света, как от высокого окна сбоку. */
+      .amb-window::before {
+        background: linear-gradient(
+          104deg,
+          transparent 0 26%,
+          rgb(var(--amber-rgb) / 0.1) 40%,
+          rgb(var(--amber-rgb) / 0.04) 52%,
+          transparent 66%
+        );
+      }
+
+      /* Отзывы: много коротких штрихов под разным наклоном — голоса. */
+      .amb-voices::before {
+        background:
+          radial-gradient(
+            64% 80% at 70% 46%,
+            rgb(var(--accent-rgb) / 0.09),
+            transparent 74%
+          ),
+          repeating-linear-gradient(
+            -68deg,
+            rgb(var(--text-rgb) / 0.05) 0 1px,
+            transparent 1px 21px
+          );
+      }
+
+      /* Цена: тише всех. Здесь считают деньги, узор мешал бы. */
+      .amb-calm::before {
+        background: radial-gradient(
+          80% 70% at 50% 0%,
+          rgb(var(--accent-rgb) / 0.08),
+          transparent 68%
+        );
+      }
+
+      /* Вопросы: редкое переплетение — нить, которая уже связана. */
+      .amb-weave::before {
+        background:
+          radial-gradient(
+            70% 80% at 24% 60%,
+            rgb(var(--steel-rgb) / 0.12),
+            transparent 72%
+          ),
+          repeating-linear-gradient(
+            45deg,
+            rgb(var(--text-rgb) / 0.04) 0 1px,
+            transparent 1px 30px
+          ),
+          repeating-linear-gradient(
+            -45deg,
+            rgb(var(--text-rgb) / 0.04) 0 1px,
+            transparent 1px 30px
+          );
+      }
+
+      @media (max-width: 700px) {
+        /* На телефоне узор попадает прямо под буквы: колонка во всю
+           ширину. Оставляем только пятна света. */
+        .amb-noise::before,
+        .amb-grid::before,
+        .amb-rings::before,
+        .amb-voices::before,
+        .amb-weave::before {
+          background-image: none;
+        }
+        .amb-noise::before {
+          background: radial-gradient(
+            80% 60% at 70% 50%,
+            rgb(var(--accent-rgb) / 0.09),
+            transparent 72%
+          );
+        }
+        .amb-grid::before {
+          background: radial-gradient(
+            80% 60% at 50% 44%,
+            rgb(var(--accent-rgb) / 0.09),
+            transparent 72%
+          );
+        }
+        .amb-rings::before {
+          background: radial-gradient(
+            80% 60% at 18% 50%,
+            rgb(var(--amber-rgb) / 0.09),
+            transparent 72%
+          );
+        }
+        .amb-voices::before {
+          background: radial-gradient(
+            80% 60% at 66% 48%,
+            rgb(var(--accent-rgb) / 0.09),
+            transparent 72%
+          );
+        }
+        .amb-weave::before {
+          background: radial-gradient(
+            80% 60% at 34% 56%,
+            rgb(var(--steel-rgb) / 0.11),
+            transparent 72%
+          );
+        }
+      }
+
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--accent-ink);
+        color: var(--on-accent);
+        padding: 12px 18px;
+        z-index: 99;
+        border-radius: 0 0 10px 0;
+      }
+
+      .skip:focus {
+        left: 0;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--accent-hover);
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+
+      /* ============================================================
+         ТИПОГРАФИКА
+         Oranienbaum только от 28px, ниже волосяные линии пропадают.
+         ============================================================ */
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-weight: 400;
+        /* Длинное слово («сторителлинга», «Кульминация») на узком
+           экране переносить негде: единственная возможность разрыва —
+           дефис, которого в русском слове нет. anywhere разрешает
+           разорвать слово как крайнюю меру, чтобы оно не вылезло
+           за край экрана. */
+        overflow-wrap: anywhere;
+        min-width: 0;
+      }
+
+      h1 {
+        font-family: var(--display);
+        font-size: clamp(46px, 7.4vw, 96px);
+        line-height: 0.98;
+        letter-spacing: -0.015em;
+      }
+
+      h1 em {
+        font-style: normal;
+        color: var(--accent);
+      }
+
+      h2 {
+        font-family: var(--display);
+        font-size: clamp(32px, 4.4vw, 62px);
+        line-height: 1.04;
+        letter-spacing: -0.01em;
+        max-width: 17ch;
+      }
+
+      h3 {
+        font-family: var(--body);
+        /* Было 600. Такого начертания мы не возим, а под это правило
+           на странице не попадает ни один заголовок: все h3 перебиты
+           моношрифтом. Ставим 500, чтобы браузер не досинтезировал. */
+        font-weight: 500;
+        font-size: 17px;
+        letter-spacing: 0.01em;
+      }
+
+      /* Заголовки набираются по букве, в порядке письма — слева направо.
+         Буква появляется чуть выше строки и опускается на своё место
+         с крошечным перелётом, как литера в наборной кассе.
+         Шаг между буквами --step считает скрипт: у длинного заголовка
+         он короче, иначе строка набиралась бы полминуты. */
+      .kin .w {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .kin .c {
+        display: inline-block;
+        opacity: 0;
+        filter: blur(7px);
+        transform: translateY(-0.5em);
+        transition:
+          opacity 0.62s var(--ease-out) calc(var(--i) * var(--step, 34ms)),
+          filter 0.62s var(--ease-out) calc(var(--i) * var(--step, 34ms)),
+          transform 0.72s cubic-bezier(0.22, 1.1, 0.36, 1)
+            calc(var(--i) * var(--step, 34ms));
+      }
+
+      .kin.in .c {
+        opacity: 1;
+        filter: none;
+        transform: none;
+      }
+
+      .kicker {
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 22px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .kicker::before {
+        content: "";
+        width: 26px;
+        height: 1px;
+        background: var(--accent);
+        flex: none;
+      }
+
+      .lede {
+        font-size: clamp(17px, 1.5vw, 20px);
+        line-height: 1.6;
+        color: var(--muted);
+        max-width: 54ch;
+        margin: 26px 0 0;
+      }
+
+      p {
+        margin: 0 0 1em;
+      }
+
+      /* ============================================================
+         КНОПКИ
+         ============================================================ */
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 38px;
+      }
+
       .btn {
-        font-family: var(--font-ui);
-        font-size: 14px;
-        letter-spacing: 0.05em;
-        padding: 13px 24px;
-        border: 1px solid var(--thread);
-        background: var(--thread);
-        color: #fff;
-        text-decoration: none;
-        cursor: pointer;
+        --b: var(--accent-ink);
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 10px;
+        padding: 16px 30px;
+        background: var(--b);
+        color: var(--on-accent);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+        border: 1px solid var(--b);
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+        transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
         transition:
-          transform 0.18s ease,
-          opacity 0.18s ease;
+          background 0.3s var(--ease-out),
+          border-color 0.3s var(--ease-out),
+          transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
       }
+
+      .btn.pulled {
+        transition:
+          background 0.3s var(--ease-out),
+          border-color 0.3s var(--ease-out);
+      }
+
       .btn:hover {
-        transform: translateY(-2px);
-        opacity: 0.92;
+        --b: var(--accent-hover);
+      }
+
+      /* Нажатие. Магнит держим: сдвиг прибавляется к его смещению,
+         иначе кнопка при нажатии прыгала бы на место курсора. */
+      .btn:active {
+        --b: var(--accent-press);
+        transform: translate3d(var(--mx, 0px), calc(var(--my, 0px) + 1px), 0);
+        transition-duration: 0s;
+      }
+
+      .btn-ghost:active {
+        background: rgb(var(--text-rgb) / 0.08);
+        border-color: var(--text);
+      }
+
+      .btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          100deg,
+          transparent 30%,
+          rgb(var(--on-accent-rgb) / 0.22),
+          transparent 70%
+        );
+        transform: translateX(-120%);
+        transition: transform 0.7s var(--ease-out);
+      }
+
+      .btn:hover::after {
+        transform: translateX(120%);
       }
 
       .btn-ghost {
         background: transparent;
         color: var(--text);
-        border-color: var(--line);
+        border-color: var(--line-strong);
       }
+
       .btn-ghost:hover {
-        border-color: var(--thread);
+        background: rgb(var(--text-rgb) / 0.05);
+        border-color: var(--text);
       }
 
-      .btn-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 14px;
-        align-items: center;
-      }
-
-      /* ---------- Первый экран ---------- */
-      .hero {
-        position: relative;
-        padding-block: clamp(64px, 11vw, 140px) var(--step);
-      }
-      .hero::before {
-        content: "";
-        position: absolute;
-        top: -160px;
-        left: -140px;
-        width: 620px;
-        height: 620px;
-        background: radial-gradient(circle, var(--glow), transparent 62%);
-        pointer-events: none;
-      }
-      .hero > * {
-        position: relative;
-      }
-
-      .hero h1 {
-        font-size: clamp(36px, 6.4vw, 82px);
-        line-height: 1.04;
-        letter-spacing: -0.015em;
-        max-width: 15ch;
-      }
-      .hero h1 em {
-        font-style: italic;
-        color: var(--thread);
-      }
-      .hero .prose {
-        font-size: clamp(17px, 1.5vw, 21px);
+      .note {
+        font-size: 14px;
         color: var(--muted);
+        margin: 16px 0 0;
       }
 
-      .meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 22px;
-        font-family: var(--font-ui);
-        font-size: 13px;
-        letter-spacing: 0.05em;
-        color: var(--muted);
-        font-variant-numeric: tabular-nums;
-      }
-
-      /* ---------- Сравнение ---------- */
-      .compare {
-        display: grid;
-        gap: 2px;
-        background: var(--line);
-        border: 1px solid var(--line);
-      }
-      @media (min-width: 780px) {
-        .compare {
-          grid-template-columns: 1fr 1fr;
+      @media (pointer: coarse) {
+        .btn {
+          min-height: 48px;
+        }
+        /* Ссылка «Наверх» в подвале была высотой 19px: пальцем не попасть. */
+        .foot a {
+          min-height: 44px;
+          display: inline-flex;
+          align-items: center;
         }
       }
 
-      .compare-col {
-        background: var(--ink);
-        padding: clamp(24px, 3.4vw, 40px);
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
+      /* ============================================================
+         ШАПКА
+         ============================================================ */
+      .top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 40;
+        padding: 18px 0;
+        transition:
+          background 0.4s var(--ease-out),
+          backdrop-filter 0.4s var(--ease-out),
+          border-color 0.4s var(--ease-out);
+        border-bottom: 1px solid transparent;
       }
-      .compare-col h3 {
-        font-size: 24px;
+
+      .top.stuck {
+        background: rgb(var(--canvas-rgb) / 0.82);
+        backdrop-filter: blur(14px);
+        border-bottom-color: var(--line);
       }
-      .compare-col ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+
+      .top .shell {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .mark {
+        font-family: var(--display);
+        font-size: 21px;
+        color: var(--text);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+        letter-spacing: 0.01em;
+      }
+
+      /* Черта у знака тянется через scaleX, а не через width:
+         ширина — свойство раскладки, браузер пересчитывает её каждый
+         кадр. Трансформация считается на видеокарте. */
+      .mark i {
+        width: 38px;
+        height: var(--hair);
+        background: var(--accent);
+        display: block;
+        transform: scaleX(0.58);
+        transform-origin: left center;
+        transition: transform 0.4s var(--ease-line);
+      }
+
+      .mark:hover i,
+      .mark:focus-visible i {
+        transform: scaleX(1);
+      }
+
+      .nav {
+        display: flex;
+        gap: 28px;
+        font-size: 14px;
+      }
+
+      .nav a {
         color: var(--muted);
-      }
-      .compare-col li {
-        padding-left: 22px;
+        text-decoration: none;
         position: relative;
+        padding-block: var(--space-3xs);
       }
-      .compare-col li::before {
+
+      /* Пометка «образец» стоит там, где стоят числа, а не только
+         в подвале. Выдуманная цифра в полосе доверия читается как
+         обещание; подпись рядом снимает обещание сразу, а не через
+         три экрана. */
+      .sample {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted-deep);
+        margin: var(--space-sm) 0 0;
+        display: flex;
+        align-items: center;
+        gap: var(--space-2xs);
+      }
+
+      .sample::before {
+        content: "";
+        width: 18px;
+        height: var(--hair);
+        background: var(--muted-deep);
+        flex: none;
+      }
+
+      .strip .sample {
+        justify-content: center;
+        margin-top: var(--space-md);
+      }
+
+      /* Шапка перестаёт быть украшением и становится указателем:
+         подсвечен тот раздел, в котором человек сейчас находится. */
+      .nav a[aria-current="true"] {
+        color: var(--accent-text);
+      }
+
+      .nav a[aria-current="true"]::after {
         content: "";
         position: absolute;
         left: 0;
-        top: 0.62em;
-        width: 10px;
-        height: 1px;
-        background: currentColor;
-        opacity: 0.55;
-      }
-      .compare-col.is-ours {
-        background: var(--ink-2);
-      }
-      .compare-col.is-ours li::before {
-        background: var(--thread);
-        opacity: 1;
-        height: 2px;
+        right: 0;
+        bottom: 0;
+        height: var(--hair);
+        background: var(--accent-text);
       }
 
-      /* ---------- Дуга напряжения ---------- */
-      .arc-svg {
+      .nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 100%;
+        bottom: 0;
+        height: 1px;
+        background: var(--accent);
+        transition: right 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .nav a:hover {
+        color: var(--text);
+      }
+
+      .nav a:hover::after {
+        right: 0;
+      }
+
+      /* ТЕЛЕФОН: меню не прячем, а кладём лентой под знаком.
+         Раньше здесь стояло display: none, и на телефоне страницу
+         в одиннадцать тысяч пикселей нельзя было пройти иначе как
+         листая целиком: до цены и записи человек просто не доходил.
+         Гамбургер для четырёх якорей — лишний механизм; лента видна
+         всегда и сама показывает, где вы находитесь. */
+      @media (max-width: 700px) {
+        :root {
+          /* Шапка стала в две строки: знак и лента якорей. */
+          --header-h: 104px;
+        }
+
+        .top {
+          padding: 12px 0 10px;
+        }
+
+        .top .shell {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 10px;
+        }
+
+        .nav {
+          gap: 8px;
+          font-size: 12.5px;
+          font-family: var(--mono);
+          letter-spacing: 0.06em;
+          /* Лента, а не перенос: четыре якоря в две строки съели бы
+             треть первого экрана. */
+          overflow-x: auto;
+          scrollbar-width: none;
+          margin-inline: calc(clamp(20px, 5vw, 40px) * -1);
+          padding-inline: clamp(20px, 5vw, 40px);
+          scroll-padding-inline: clamp(20px, 5vw, 40px);
+        }
+
+        .nav::-webkit-scrollbar {
+          display: none;
+        }
+
+        .nav a {
+          flex: none;
+          white-space: nowrap;
+          padding: 7px 12px;
+          border: var(--hair) solid var(--line);
+          border-radius: 2px;
+        }
+
+        .nav a[aria-current="true"] {
+          border-color: var(--accent-text);
+        }
+
+        /* Подчёркивание из настольной версии внутри рамки лишнее. */
+        .nav a[aria-current="true"]::after {
+          display: none;
+        }
+      }
+
+      /* ============================================================
+         ГЕРОЙ
+         Фотографии нет: первый экран рисуется кодом. Красная нить
+         дышит в тёмном воздухе, вторая уходит в расфокус, в луче
+         плывут пылинки. Это тот же знак, что идёт вдоль левого поля
+         страницы, только здесь он живой.
+         Два уровня вложенности, потому что у каждого своё движение
+         и один transform на всех они бы перетёрли друг друга:
+         .smoke двигают курсор и прокрутка, холст живёт сам.
+         ============================================================ */
+      .hero {
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        padding-block: 140px 90px;
+        overflow: hidden;
+      }
+
+      .smoke {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transform: translate3d(var(--sx, 0px), var(--sy, 0px), 0);
+        opacity: var(--so, 1);
+      }
+
+      /* Нить первого экрана рисуется кодом на холсте, а не кадром.
+         Фотографии здесь нет вовсе: нечего подгружать и нечего
+         встретить на чужом сайте. */
+      .smoke canvas {
+        position: absolute;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        animation: heroIn 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+      }
+
+      @keyframes heroIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Живое зерно: восемь положений, как на плёнке. */
+      .grainlive {
+        position: absolute;
+        inset: -22%;
+        opacity: 0.07;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23n)'/%3E%3C/svg%3E");
+        animation: grainmove 0.72s steps(1) infinite;
+      }
+
+      @keyframes grainmove {
+        0% {
+          transform: translate(0, 0);
+        }
+        12% {
+          transform: translate(-4%, -3%);
+        }
+        25% {
+          transform: translate(3%, -5%);
+        }
+        37% {
+          transform: translate(-5%, 4%);
+        }
+        50% {
+          transform: translate(4%, 3%);
+        }
+        62% {
+          transform: translate(-3%, -4%);
+        }
+        75% {
+          transform: translate(5%, 2%);
+        }
+        87% {
+          transform: translate(-2%, 5%);
+        }
+      }
+
+      /* Затемнение слева: заголовок обязан лежать на почти чёрном. */
+      .smoke::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            to right,
+            var(--canvas) 0%,
+            var(--canvas) 42%,
+            rgb(var(--canvas-rgb) / 0.97) 60%,
+            rgb(var(--canvas-rgb) / 0.5) 76%,
+            rgb(var(--canvas-rgb) / 0.16) 90%,
+            transparent 100%
+          ),
+          linear-gradient(to bottom, var(--canvas), transparent 22%),
+          linear-gradient(to top, var(--canvas), transparent 20%);
+      }
+
+      .scrollcue {
+        z-index: 1;
+      }
+
+      /* Слой читаемости привязан к колонке текста, а не к процентам
+         от окна: колонка центрируется, и на широком экране проценты
+         от окна перестают её накрывать. Замер на 1920 показывал
+         1,96:1 на слове «всё», это провал. */
+      .hero .shell::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: -18%;
+        bottom: -18%;
+        left: -50vw;
+        width: calc(50vw + 860px);
+        pointer-events: none;
+        background: linear-gradient(
+          to right,
+          rgb(var(--canvas-rgb) / 0.96) 0%,
+          rgb(var(--canvas-rgb) / 0.9) calc(100% - 300px),
+          rgb(var(--canvas-rgb) / 0.5) calc(100% - 110px),
+          transparent 100%
+        );
+      }
+
+      @media (max-width: 899px) {
+        .hero .shell::before {
+          background: linear-gradient(
+            to right,
+            rgb(var(--canvas-rgb) / 0.88) 0%,
+            rgb(var(--canvas-rgb) / 0.84) 70%,
+            rgb(var(--canvas-rgb) / 0.5) 100%
+          );
+        }
+      }
+
+      .hero h1 {
+        max-width: 13ch;
+      }
+
+      .hero h1 span {
+        margin-right: 0;
+      }
+
+      .facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 34px;
+        margin-top: 44px;
+        font-family: var(--mono);
+        font-size: 12.5px;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+
+      .facts span {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2xs);
+      }
+
+      .facts span::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+
+      /* Подсказка стоит у правого края вертикально: по центру она спорила
+         с левым выключением всей страницы и висела без опоры. */
+      .scrollcue {
+        position: absolute;
+        right: clamp(20px, 4vw, 44px);
+        bottom: 46px;
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--muted);
+        writing-mode: vertical-rl;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .scrollcue::after {
+        content: "";
+        width: 1px;
+        height: 54px;
+        background: linear-gradient(var(--accent), transparent);
+        animation: cue 2.4s var(--ease-in-out) infinite;
+        transform-origin: top;
+      }
+
+      @keyframes cue {
+        0%,
+        100% {
+          transform: scaleY(0.3);
+          opacity: 0.4;
+        }
+        50% {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      /* Невысокие ноутбуки: первый экран обязан помещаться целиком,
+         иначе подсказка «листайте» оказывается за краем. */
+      @media (min-width: 900px) and (max-height: 920px) {
+        .hero {
+          padding-block: calc(var(--header-h) + 42px) 58px;
+        }
+        .hero h1 {
+          font-size: clamp(40px, 5.6vw, 78px);
+        }
+        .hero .lede {
+          margin-top: 20px;
+        }
+        .hero .btn-row {
+          margin-top: 30px;
+        }
+        .hero .facts {
+          margin-top: 28px;
+        }
+      }
+
+      @media (max-width: 899px) {
+        .hero {
+          /* Шапка на телефоне в две строки, поэтому верх считается
+             от её высоты, а низ держим тяжелее видимого верха. */
+          padding-block: calc(var(--header-h) + 46px) 74px;
+        }
+        /* Подсказка о прокрутке на телефоне не помещается и не нужна:
+           там и так понятно, что страницу листают. */
+        .scrollcue {
+          display: none;
+        }
+      }
+
+      /* ============================================================
+         ПОЛОСА ДОВЕРИЯ. Узкая, своя сетка, ни на что не похожа.
+         ============================================================ */
+      .strip {
+        border-block: 1px solid var(--line);
+        background: rgb(var(--deep-rgb) / 0.5);
+        padding-block: 30px;
+      }
+
+      .strip .shell {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+      }
+
+      .strip b {
+        font-family: var(--display);
+        font-size: clamp(30px, 3.6vw, 46px);
+        font-weight: 400;
+        display: block;
+        line-height: 1;
+      }
+
+      .strip small {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: block;
+        margin-top: var(--space-2xs);
+      }
+
+      @media (max-width: 720px) {
+        .strip .shell {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 26px 18px;
+        }
+      }
+
+      /* ============================================================
+         БОЛЬ. Фразы вразнобой, без сетки, как реплики в комнате.
+         ============================================================ */
+      .voices {
+        margin-top: 46px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 900px;
+      }
+
+      .voice {
+        font-family: var(--mono);
+        font-size: clamp(14px, 1.45vw, 17px);
+        line-height: 1.5;
+        color: var(--muted);
+        border-left: 1px solid var(--line);
+        padding: 12px 20px;
+        background: rgb(var(--panel-rgb) / 0.4);
+        transition:
+          color 0.4s var(--ease-out),
+          border-color 0.4s var(--ease-out),
+          background 0.4s var(--ease-out);
+      }
+
+      .voice:nth-child(2n) {
+        margin-left: clamp(0px, 7vw, 92px);
+      }
+
+      .voice:nth-child(3n) {
+        margin-left: clamp(0px, 3vw, 44px);
+      }
+
+      .voice:hover {
+        color: var(--text);
+        border-left-color: var(--accent-text);
+        background: rgb(var(--panel-rgb) / 0.8);
+      }
+
+      .verdict {
+        font-family: var(--display);
+        font-size: clamp(22px, 2.6vw, 34px);
+        line-height: 1.24;
+        max-width: 24ch;
+        margin-top: 54px;
+        color: var(--text);
+      }
+
+      /* ============================================================
+         СРАВНЕНИЕ. Не две карточки, а две колонки разного веса.
+         ============================================================ */
+      .versus {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: clamp(20px, 3vw, 44px);
+        margin-top: 50px;
+        align-items: start;
+      }
+
+      .col {
+        padding: 30px 28px;
+        border: 1px solid var(--line);
+        background: rgb(var(--deep-rgb) / 0.45);
+      }
+
+      .col.ours {
+        border-color: var(--accent-soft);
+        background: linear-gradient(
+          160deg,
+          rgb(var(--accent-rgb) / 0.07),
+          rgb(var(--panel-rgb) / 0.75)
+        );
+        box-shadow: 0 30px 70px -40px rgb(var(--accent-rgb) / 0.55);
+      }
+
+      .col h3 {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 22px;
+      }
+
+      .col.ours h3 {
+        color: var(--accent-text);
+      }
+
+      .col ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .col li {
+        display: flex;
+        gap: var(--space-xs);
+        align-items: baseline;
+        font-size: 15.5px;
+        line-height: 1.5;
+      }
+
+      .col li::before {
+        content: "";
+        width: 13px;
+        height: 1px;
+        background: var(--line-strong);
+        flex: none;
+        transform: translateY(-4px);
+      }
+
+      .col:not(.ours) li {
+        color: var(--muted);
+      }
+
+      .col.ours li::before {
+        background: var(--accent);
+        width: 18px;
+      }
+
+      @media (max-width: 800px) {
+        .versus {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ============================================================
+         ДУГА. Фирменная секция: кривая рисует себя, пять опор,
+         точку можно тащить мышкой, пальцем и стрелками.
+         ============================================================ */
+      .arcwrap {
+        margin-top: 46px;
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          180deg,
+          rgb(var(--panel-rgb) / 0.7),
+          rgb(var(--deep-rgb) / 0.7)
+        );
+        padding: clamp(18px, 3vw, 34px);
+      }
+
+      .arcstage {
+        position: relative;
+        touch-action: pan-y;
+      }
+
+      .arc {
+        display: block;
         width: 100%;
         height: auto;
-        display: block;
         overflow: visible;
       }
-      .arc-svg .curve {
-        fill: none;
-        stroke: var(--thread);
-        stroke-width: 2.5;
-        stroke-linecap: round;
-      }
-      .arc-svg .base {
+
+      .arc .base {
         stroke: var(--line);
         stroke-width: 1;
       }
-      .arc-svg .dot {
-        fill: var(--ink);
-        stroke: var(--thread);
-        stroke-width: 2.5;
+
+      /* Направляющая видна только без скрипта: как только лента
+         построена, скрипт гасит её. */
+      #curve {
+        stroke-linecap: round;
       }
-      .arc-svg .num {
-        font-family: var(--font-ui);
-        font-size: 13px;
-        fill: var(--text);
-        text-anchor: middle;
-        dominant-baseline: central;
+
+      .arc .dot {
+        fill: var(--canvas);
+        stroke: var(--line-strong);
+        stroke-width: 1.5;
+        transition:
+          stroke 0.35s var(--ease-out),
+          fill 0.35s var(--ease-out);
       }
-      .arc-svg .axis {
-        font-family: var(--font-ui);
-        font-size: 12px;
-        letter-spacing: 0.14em;
+
+      .arc .dot.lit {
+        stroke: var(--accent);
+        fill: var(--accent);
+      }
+
+      .arc .head {
+        fill: var(--spark);
+        stroke: rgb(var(--accent-rgb) / 0.55);
+        stroke-width: 5;
+      }
+
+      .arc .axis {
         fill: var(--muted);
-        text-transform: uppercase;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
       }
 
-      .beats {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        gap: 1px;
-        background: var(--line);
-        border-block: 1px solid var(--line);
-      }
-      .beat {
-        background: var(--ink);
-        display: grid;
-        grid-template-columns: 44px 1fr;
-        gap: 4px 18px;
-        padding: 22px 4px;
-        align-items: baseline;
-      }
-      @media (min-width: 720px) {
-        .beat {
-          grid-template-columns: 44px 220px 1fr;
-        }
+      .arc .num {
+        fill: var(--muted);
+        font-family: var(--mono);
+        font-size: 11px;
+        text-anchor: middle;
+        transition: fill 0.35s var(--ease-out);
       }
 
-      .beat-num {
-        font-family: var(--font-ui);
-        font-size: 13px;
-        color: var(--thread);
-        font-variant-numeric: tabular-nums;
+      .beatbox {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 4px 20px;
+        margin-top: 26px;
+        border-top: 1px solid var(--line);
+        padding-top: 26px;
+        min-height: 128px;
       }
-      .beat-name {
-        font-size: 21px;
+
+      .beatbox .bn {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent-text);
+        letter-spacing: 0.1em;
+        padding-top: var(--space-2xs);
       }
-      .beat-text {
+
+      .beatbox .bt {
+        font-family: var(--display);
+        font-size: clamp(24px, 3vw, 38px);
+        line-height: 1.1;
+      }
+
+      .beatbox .bd {
+        grid-column: 2;
         color: var(--muted);
-        grid-column: 2 / -1;
+        max-width: 52ch;
+        margin: 10px 0 0;
       }
-      @media (min-width: 720px) {
-        .beat-text {
-          grid-column: 3 / 4;
+
+      .beatbox.swap .bt,
+      .beatbox.swap .bd {
+        animation: swapin 0.42s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      @keyframes swapin {
+        from {
+          opacity: 0;
+          transform: translateY(9px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
         }
       }
 
-      /* ---------- Программа ---------- */
-      .modules {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-      }
-      .module {
+      .beatnav {
         display: flex;
         flex-wrap: wrap;
-        align-items: baseline;
-        gap: 8px 20px;
-        padding-block: 22px;
+        gap: 8px;
+        margin-top: 24px;
+      }
+
+      .beatnav button {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: 0.08em;
+        padding: 0 var(--space-sm);
+        min-height: var(--tap);
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--line-strong);
+        border-radius: 2px;
+        cursor: pointer;
+        transition:
+          color 0.3s var(--ease-out),
+          border-color 0.3s var(--ease-out),
+          background 0.3s var(--ease-out);
+      }
+
+      .beatnav button:hover {
+        color: var(--text);
+        border-color: var(--text);
+      }
+
+      .beatnav button:active {
+        background: rgb(var(--accent-rgb) / 0.16);
+        border-color: var(--accent);
+        color: var(--text);
+        transform: translateY(1px);
+        transition-duration: 0s;
+      }
+
+      /* Ни одна кнопка на странице сейчас не выключается, но состояние
+         описано: если появится, оно не будет выглядеть как рабочая. */
+      button:disabled,
+      button[aria-disabled="true"] {
+        opacity: 0.55;
+        cursor: not-allowed;
+        border-color: var(--line);
+        color: var(--muted);
+      }
+
+      .beatnav button[aria-current="true"] {
+        color: var(--on-accent);
+        background: var(--accent-ink);
+        border-color: var(--accent-ink);
+      }
+
+      .hint {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 18px;
+      }
+
+      @media (pointer: coarse) {
+        .beatnav button {
+          min-height: 44px;
+        }
+      }
+
+      /* ============================================================
+         ШАГИ ЗАНЯТИЯ. Горизонтальная лента, номера крупно.
+         ============================================================ */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(18px, 2.6vw, 38px);
+        margin-top: 50px;
+        list-style: none;
+        padding: 0;
+        counter-reset: s;
+      }
+
+      .step {
+        border-top: 1px solid var(--line);
+        padding-top: 22px;
+        position: relative;
+      }
+
+      .step::before {
+        counter-increment: s;
+        content: counter(s, decimal-leading-zero);
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: 0.14em;
+        color: var(--accent-text);
+        display: block;
+        margin-bottom: 16px;
+      }
+
+      .step::after {
+        content: "";
+        position: absolute;
+        top: calc(var(--hair) * -1);
+        left: 0;
+        height: var(--hair);
+        width: 100%;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.9s var(--ease-line) var(--d, 0s);
+      }
+
+      .step.in::after {
+        transform: scaleX(1);
+      }
+
+      .step b {
+        font-family: var(--display);
+        font-size: clamp(21px, 2.1vw, 28px);
+        font-weight: 400;
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .step p {
+        color: var(--muted);
+        font-size: 15.5px;
+        margin: 0;
+      }
+
+      @media (max-width: 820px) {
+        .steps {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+      }
+
+      /* ============================================================
+         ПРОГРАММА. Строки, нанизанные на общую линию.
+         ============================================================ */
+      .modules {
+        list-style: none;
+        margin: 48px 0 0;
+        padding: 0;
         border-top: 1px solid var(--line);
       }
-      .modules .module:last-child {
+
+      .module {
+        display: grid;
+        grid-template-columns: 56px minmax(0, 1.1fr) minmax(0, 1.5fr) auto;
+        gap: 24px;
+        align-items: baseline;
+        padding: 26px 0;
         border-bottom: 1px solid var(--line);
+        position: relative;
+        transition: background 0.4s var(--ease-out);
       }
-      .module-name {
-        font-size: clamp(21px, 2.3vw, 28px);
-        flex: 1 1 260px;
+
+      .module:hover {
+        background: rgb(var(--accent-rgb) / 0.045);
       }
-      .module-text {
+
+      .module .mi {
+        font-family: var(--mono);
+        font-size: 12px;
         color: var(--muted);
-        flex: 2 1 320px;
+        letter-spacing: 0.1em;
+        transition: color 0.35s var(--ease-out);
       }
-      .module-len {
-        font-family: var(--font-ui);
-        font-size: 13px;
+
+      .module:hover .mi {
+        color: var(--accent-text);
+      }
+
+      .module .mn {
+        font-family: var(--display);
+        font-size: clamp(22px, 2.3vw, 31px);
+      }
+
+      .module .mt {
         color: var(--muted);
-        font-variant-numeric: tabular-nums;
+        font-size: 15.5px;
+        line-height: 1.5;
+      }
+
+      .module .ml {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
         white-space: nowrap;
       }
 
-      /* ---------- Цитата ---------- */
-      .quote {
-        border-left: 2px solid var(--thread);
-        padding-left: clamp(20px, 3vw, 36px);
-      }
-      .quote blockquote {
-        margin: 0;
-        font-size: clamp(23px, 3.1vw, 38px);
-        line-height: 1.3;
-        font-style: italic;
-        max-width: 20ch;
-        text-wrap: balance;
-      }
-      .quote figcaption {
-        margin-top: 20px;
-        color: var(--muted);
-        font-family: var(--font-ui);
-        font-size: 13px;
-        letter-spacing: 0.06em;
-      }
-
-      /* ---------- Запись ---------- */
-      .signup {
-        background: var(--ink-2);
-        border: 1px solid var(--line);
-        padding: clamp(28px, 4.4vw, 56px);
-        display: grid;
-        gap: 32px;
-      }
-      @media (min-width: 860px) {
-        .signup {
-          grid-template-columns: 1fr 1fr;
-          gap: 56px;
-          align-items: start;
+      @media (max-width: 880px) {
+        .module {
+          grid-template-columns: 44px 1fr;
+          gap: 6px 18px;
+        }
+        .module .mt {
+          grid-column: 2;
+        }
+        .module .ml {
+          grid-column: 2;
+          margin-top: 6px;
         }
       }
 
-      .signup h2 {
-        font-size: clamp(28px, 3.6vw, 44px);
-        line-height: 1.12;
+      /* ============================================================
+         ВЕДУЩИЙ
+         ============================================================ */
+      .host {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: clamp(24px, 4vw, 56px);
+        align-items: center;
+        margin-top: 44px;
+        border: 1px solid var(--line);
+        background: rgb(var(--panel-rgb) / 0.55);
+        padding: clamp(22px, 3vw, 40px);
       }
 
-      .price {
-        font-family: var(--font-ui);
-        font-variant-numeric: tabular-nums;
-        font-size: 15px;
+      .portrait {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(
+            60% 55% at 42% 34%,
+            rgb(var(--accent-rgb) / 0.28),
+            transparent 70%
+          ),
+          linear-gradient(150deg, var(--panel-2), var(--canvas-deep));
+        border: 1px solid var(--line-strong);
+        display: grid;
+        place-items: center;
+        font-family: var(--display);
+        font-size: 58px;
+        color: var(--accent);
+      }
+
+      .host p {
         color: var(--muted);
-      }
-      .price b {
-        color: var(--text);
-        font-weight: 600;
-        font-size: 19px;
+        max-width: 56ch;
       }
 
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
+      .host .who {
+        font-family: var(--display);
+        font-size: clamp(26px, 3vw, 38px);
+        color: var(--text);
+        margin-bottom: 4px;
       }
-      .field span {
-        font-family: var(--font-ui);
+
+      .host .role {
+        font-family: var(--mono);
         font-size: 12px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--muted);
-      }
-      .field input {
-        font: inherit;
-        font-size: 17px;
-        color: var(--text);
-        background: transparent;
-        border: 0;
-        border-bottom: 1px solid var(--line);
-        padding: 10px 2px;
-        transition: border-color 0.2s ease;
-      }
-      .field input:focus {
-        border-bottom-color: var(--thread);
-        outline: none;
+        color: var(--accent-text);
+        margin-bottom: 18px;
       }
 
-      .form-note {
-        font-family: var(--font-ui);
+      @media (max-width: 720px) {
+        .host {
+          grid-template-columns: 1fr;
+          justify-items: start;
+        }
+        .portrait {
+          width: 140px;
+        }
+      }
+
+      /* ============================================================
+         ОТЗЫВЫ. Разная высота карточек, цитата крупно.
+         ============================================================ */
+      .quotes {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(16px, 2vw, 26px);
+        margin-top: 48px;
+      }
+
+      .quote {
+        margin: 0;
+        padding: 30px 26px;
+        border: 1px solid var(--line);
+        background: rgb(var(--panel-rgb) / 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 26px;
+        transition:
+          border-color 0.4s var(--ease-out),
+          transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .quote:nth-child(2) {
+        margin-top: clamp(0px, 3vw, 38px);
+      }
+
+      .quote:hover {
+        border-color: var(--line-strong);
+        transform: translateY(-4px);
+      }
+
+      .quote blockquote {
+        margin: 0;
+        font-family: var(--display);
+        font-size: clamp(20px, 1.9vw, 25px);
+        line-height: 1.22;
+      }
+
+      .quote blockquote::before {
+        content: "";
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: var(--accent);
+        margin-bottom: 20px;
+      }
+
+      .quote figcaption {
+        font-family: var(--mono);
+        font-size: 11.5px;
+        line-height: 1.7;
+        color: var(--muted);
+        letter-spacing: 0.04em;
+      }
+
+      @media (max-width: 880px) {
+        .quotes {
+          grid-template-columns: 1fr;
+        }
+        .quote:nth-child(2) {
+          margin-top: 0;
+        }
+      }
+
+      /* ============================================================
+         ЦЕНА
+         ============================================================ */
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(16px, 2vw, 26px);
+        margin-top: 48px;
+      }
+
+      .plan {
+        border: 1px solid var(--line);
+        background: rgb(var(--deep-rgb) / 0.5);
+        padding: clamp(24px, 3vw, 36px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .plan.pick {
+        border-color: var(--accent-soft);
+        background: linear-gradient(
+          165deg,
+          rgb(var(--accent-rgb) / 0.08),
+          rgb(var(--panel-rgb) / 0.8)
+        );
+        box-shadow: 0 40px 90px -50px rgb(var(--accent-rgb) / 0.7);
+      }
+
+      .plan .tag {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .plan.pick .tag {
+        color: var(--accent-text);
+      }
+
+      .plan .sum {
+        font-family: var(--display);
+        font-size: clamp(38px, 4.6vw, 60px);
+        line-height: 1;
+        margin: 18px 0 6px;
+      }
+
+      .plan .sub {
+        font-family: var(--mono);
         font-size: 12px;
         color: var(--muted);
-        line-height: 1.5;
-      }
-      .form-status {
-        font-family: var(--font-ui);
-        font-size: 14px;
-        color: var(--thread);
-        min-height: 1.4em;
+        margin-bottom: 24px;
       }
 
-      /* ---------- Подвал ---------- */
-      .foot {
-        border-top: 1px solid var(--line);
-        padding-block: 40px 56px;
+      .plan ul {
+        list-style: none;
+        margin: 0 0 28px;
+        padding: 0;
         display: flex;
-        flex-wrap: wrap;
-        gap: 16px 32px;
-        align-items: center;
-        font-family: var(--font-ui);
-        font-size: 13px;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 15.5px;
+      }
+
+      .plan li {
+        display: flex;
+        gap: 12px;
+        align-items: baseline;
         color: var(--muted);
       }
-      .foot a {
-        text-decoration: none;
+
+      .plan li::before {
+        content: "";
+        width: 12px;
+        height: 1px;
+        background: var(--accent);
+        flex: none;
+        transform: translateY(-4px);
       }
+
+      .plan .btn {
+        margin-top: auto;
+      }
+
+      .whyprice {
+        margin-top: 30px;
+        font-size: 15.5px;
+        color: var(--muted);
+        max-width: 62ch;
+        border-left: 1px solid var(--accent);
+        padding-left: 20px;
+      }
+
+      @media (max-width: 760px) {
+        .plans {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ============================================================
+         ВОЗРАЖЕНИЯ
+         ============================================================ */
+      .faq {
+        margin-top: 46px;
+        border-top: 1px solid var(--line);
+      }
+
+      .faq details {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .faq summary {
+        cursor: pointer;
+        list-style: none;
+        padding: 24px 46px 24px 0;
+        font-family: var(--display);
+        font-size: clamp(19px, 2vw, 26px);
+        line-height: 1.22;
+        position: relative;
+        transition: color 0.3s var(--ease-out);
+      }
+
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .faq summary:hover {
+        color: var(--accent-text);
+      }
+
+      .faq summary::after {
+        content: "";
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        width: 13px;
+        height: 1px;
+        background: var(--accent);
+        transition: transform 0.35s var(--ease-out);
+      }
+
+      .faq summary::before {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        width: 1px;
+        height: 13px;
+        background: var(--accent);
+        transform: translateY(-50%);
+        transition:
+          transform 0.35s var(--ease-out),
+          opacity 0.35s var(--ease-out);
+      }
+
+      .faq details[open] summary::before {
+        opacity: 0;
+        transform: translateY(-50%) rotate(90deg);
+      }
+
+      .faq .ans {
+        color: var(--muted);
+        max-width: 64ch;
+        padding: 0 0 26px;
+        margin: 0;
+        font-size: 16px;
+        animation: swapin 0.4s var(--ease-out);
+      }
+
+      /* ============================================================
+         ФИНАЛ
+         ============================================================ */
+      .final {
+        background: var(--canvas-deep);
+        border-top: 1px solid var(--line);
+        text-align: left;
+      }
+
+      .final .shell {
+        max-width: 780px;
+      }
+
+      .taut {
+        width: 100%;
+        height: 2px;
+        background: var(--line);
+        margin-bottom: 52px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .taut::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--accent);
+        box-shadow: 0 0 16px var(--accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .final.in .taut::after {
+        transform: scaleX(1);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        background: var(--canvas-deep);
+        padding-block: 40px;
+      }
+
+      .foot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 30px;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+      }
+
+      .foot a {
+        color: var(--muted);
+      }
+
+      /* Нажатие для остальных кликабельных мест. На телефоне это
+         единственный отклик, который человек вообще получает. */
+      .nav a:active,
+      .mark:active,
+      .foot a:active {
+        color: var(--accent-text);
+      }
+
+      .faq summary:active {
+        color: var(--accent-text);
+      }
+
       .foot a:hover {
+        color: var(--accent-text);
+      }
+
+      .disclaimer {
+        width: 100%;
+        line-height: 1.7;
+        color: var(--muted-deep);
+        max-width: 70ch;
+      }
+
+      /* ============================================================
+         БЕГУЩАЯ СТРОКА
+         Две одинаковые половины едут влево, на -50% лента
+         перескакивает в начало, и шов не виден.
+         ============================================================ */
+      .ticker {
+        border-block: 1px solid var(--line);
+        background: rgb(var(--deep-rgb) / 0.55);
+        padding-block: 22px;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+      }
+
+      .ticker::before,
+      .ticker::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: clamp(60px, 12vw, 190px);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .ticker::before {
+        left: 0;
+        background: linear-gradient(
+          to right,
+          var(--canvas) 0%,
+          var(--canvas) 30%,
+          transparent 100%
+        );
+      }
+
+      .ticker::after {
+        right: 0;
+        background: linear-gradient(
+          to left,
+          var(--canvas) 0%,
+          var(--canvas) 30%,
+          transparent 100%
+        );
+      }
+
+      .tick-row {
+        display: flex;
+        width: max-content;
+        animation: roll 64s linear infinite;
+      }
+
+      /* Остановка ленты. Наведения мало: у того, кто ходит клавиатурой,
+         и у того, кто смотрит с телефона, наведения не бывает вообще,
+         а движущийся текст без способа его остановить — это провал
+         WCAG 2.2.2. Поэтому три способа: наведение, фокус внутри
+         и настоящая кнопка. */
+      .ticker:hover .tick-row,
+      .ticker:focus-within .tick-row,
+      .ticker.paused .tick-row {
+        animation-play-state: paused;
+      }
+
+      .tickstop {
+        position: absolute;
+        top: 50%;
+        right: clamp(12px, 3vw, 26px);
+        transform: translateY(-50%);
+        z-index: 2;
+        /* 40 вместо 34: попасть пальцем в 34 пикселя на ходу трудно,
+           а места в полосе хватает. */
+        width: 40px;
+        height: 40px;
+        display: grid;
+        place-items: center;
+        gap: var(--space-3xs);
+        grid-auto-flow: column;
+        padding: 0;
+        background: rgb(var(--canvas-rgb) / 0.82);
+        border: 1px solid var(--line-strong);
+        border-radius: 50%;
+        cursor: pointer;
+        transition:
+          border-color 0.3s var(--ease-out),
+          background 0.3s var(--ease-out);
+      }
+
+      .tickstop i {
+        display: block;
+        width: 3px;
+        height: 11px;
+        background: var(--muted);
+        transition: background 0.3s var(--ease-out);
+      }
+
+      /* В состоянии «остановлено» две полоски превращаются в треугольник
+         воспроизведения: кнопка показывает, что случится по нажатию. */
+      .ticker.paused .tickstop i:first-child {
+        width: 0;
+        height: 0;
+        background: transparent;
+        border-left: 9px solid var(--muted);
+        border-block: 6px solid transparent;
+      }
+
+      .ticker.paused .tickstop i:last-child {
+        display: none;
+      }
+
+      .tickstop:hover {
+        border-color: var(--text);
+        background: rgb(var(--canvas-rgb) / 0.95);
+      }
+
+      .tickstop:hover i {
+        background: var(--text);
+      }
+
+      .ticker.paused .tickstop:hover i:first-child {
+        border-left-color: var(--text);
+      }
+
+      .tickstop:active {
+        border-color: var(--accent);
+        transform: translateY(-50%) scale(0.94);
+        transition-duration: 0s;
+      }
+
+      .tick-row span {
+        font-family: var(--display);
+        font-size: clamp(22px, 2.6vw, 36px);
+        line-height: 1.1;
+        white-space: nowrap;
+        padding-inline: clamp(22px, 3vw, 46px);
+        display: inline-flex;
+        align-items: center;
+        gap: clamp(22px, 3vw, 46px);
         color: var(--text);
       }
-      .foot .sep {
-        margin-left: auto;
+
+      .tick-row span::after {
+        content: "";
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex: none;
       }
 
-      /* ---------- Появление ---------- */
-      .rise {
-        opacity: 0;
-        transform: translateY(22px);
-        transition:
-          opacity 0.7s ease,
-          transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      @keyframes roll {
+        to {
+          transform: translate3d(-50%, 0, 0);
+        }
       }
-      .rise.seen {
+
+      /* ============================================================
+         ЦИТАТА-РАЗВОРОТ
+         Стоит в правой половине: раньше там был пустой экран.
+         ============================================================ */
+      .spread {
+        padding-block: clamp(70px, 9vw, 130px);
+      }
+
+      .spread .shell {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      /* Ширину меряем на самом тексте цитаты, а не на обёртке:
+         ch считается по шрифту элемента, и на контейнере с телесным
+         шрифтом мера получается втрое уже нужной. */
+      .spread figure {
+        margin: 0;
+        justify-self: start;
+      }
+
+      .spread blockquote {
+        margin: 0;
+        max-width: 17ch;
+        font-family: var(--display);
+        font-size: clamp(27px, 4.1vw, 54px);
+        line-height: 1.08;
+        letter-spacing: -0.005em;
+      }
+
+      .spread blockquote::before {
+        content: "«";
+        color: var(--accent);
+      }
+
+      .spread blockquote::after {
+        content: "»";
+        color: var(--accent);
+      }
+
+      .spread figcaption {
+        max-width: 34ch;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        letter-spacing: 0.17em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 26px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .spread figcaption::before {
+        content: "";
+        width: clamp(30px, 5vw, 76px);
+        height: 1px;
+        background: var(--accent);
+        flex: none;
+      }
+
+      @media (min-width: 900px) {
+        .spread figure {
+          justify-self: end;
+          margin-right: clamp(0px, 5vw, 110px);
+        }
+        .spread blockquote {
+          max-width: 18ch;
+        }
+      }
+
+      /* Пометка на полях: маленькая цитата вдоль левого края. */
+      .margin-note {
+        position: absolute;
+        left: clamp(10px, 2vw, 34px);
+        top: 50%;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.13em;
+        color: var(--muted);
+        max-height: 70%;
+        z-index: 1;
+      }
+
+      .margin-note b {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      @media (max-width: 1340px) {
+        .margin-note {
+          display: none;
+        }
+      }
+
+      /* ============================================================
+         НОМЕР СЕКЦИИ У НИТИ
+         Левое поле переставало быть пустым.
+         ============================================================ */
+      .rail-num {
+        position: fixed;
+        bottom: 40px;
+        z-index: 4;
+        writing-mode: vertical-rl;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.6s var(--ease-out);
+      }
+
+      .rail-num.on {
+        opacity: 1;
+      }
+
+      .rail-num b {
+        color: var(--accent-text);
+        font-weight: 500;
+        font-size: 13px;
+      }
+
+      .rail-num::before {
+        content: "";
+        width: 1px;
+        height: 46px;
+        background: linear-gradient(transparent, var(--accent));
+      }
+
+      @media (max-width: 1100px) {
+        .rail-num {
+          display: none;
+        }
+      }
+
+      /* ============================================================
+         ВХОДЫ. У каждой секции свой, одинаковых подряд нет.
+         ============================================================ */
+      [data-enter] {
+        opacity: 0;
+        transition:
+          opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+          transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+          filter 0.9s var(--ease-out) var(--d, 0s);
+        will-change: opacity, transform;
+      }
+
+      [data-enter="up"] {
+        transform: translateY(26px);
+      }
+
+      [data-enter="rise"] {
+        transform: translateY(58px);
+      }
+
+      [data-enter="left"] {
+        transform: translateX(-30px);
+      }
+
+      [data-enter="right"] {
+        transform: translateX(30px);
+      }
+
+      [data-enter="blur"] {
+        filter: blur(11px);
+        transform: scale(0.985);
+      }
+
+      [data-enter="wide"] {
+        transform: scaleX(0.94);
+        transform-origin: left;
+      }
+
+      [data-enter].in {
         opacity: 1;
         transform: none;
-      }
-      .rise[data-delay="1"] {
-        transition-delay: 0.09s;
-      }
-      .rise[data-delay="2"] {
-        transition-delay: 0.18s;
-      }
-      .rise[data-delay="3"] {
-        transition-delay: 0.27s;
-      }
-      .rise[data-delay="4"] {
-        transition-delay: 0.36s;
+        filter: none;
       }
 
+      /* Заголовок героя: тот же набор по букве, но падение выше,
+         размытие сильнее и ход медленнее — это первое, что видят. */
+      .kin-hero .c {
+        filter: blur(11px);
+        transform: translateY(-0.62em);
+        transition:
+          opacity 0.8s var(--ease-out) calc(var(--i) * var(--step, 40ms)),
+          filter 0.8s var(--ease-out) calc(var(--i) * var(--step, 40ms)),
+          transform 0.9s cubic-bezier(0.22, 1.08, 0.36, 1)
+            calc(var(--i) * var(--step, 40ms));
+      }
+
+      .kin-hero .ac {
+        color: var(--accent);
+      }
+
+      .hero h1 {
+        text-shadow:
+          0 0 26px rgb(var(--canvas-rgb) / 0.9),
+          0 0 9px rgb(var(--canvas-rgb) / 0.75);
+      }
+
+      /* ============================================================
+         ПОКОЙ ДЛЯ ТЕХ, КТО ПРОСИЛ МЕНЬШЕ ДВИЖЕНИЯ
+         ============================================================ */
       @media (prefers-reduced-motion: reduce) {
-        .rise {
-          opacity: 1;
-          transform: none;
-          transition: none;
+        html {
+          scroll-behavior: auto;
         }
-        .btn:hover {
-          transform: none;
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001s !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001s !important;
         }
-        * {
-          scroll-behavior: auto !important;
+        [data-enter],
+        .kin span,
+        .bg {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
         }
-      }
-
-      html {
-        scroll-behavior: smooth;
+        .bg i {
+          transform: none !important;
+        }
+        .final .taut::after {
+          transform: scaleX(1) !important;
+        }
+        .step::after {
+          transform: scaleX(1) !important;
+        }
+        .tick-row,
+        .grainlive,
+        .smoke canvas {
+          animation: none !important;
+        }
+        .tickstop {
+          display: none !important;
+        }
+        .grainlive,
+        .smoke {
+          transform: none !important;
+        }
+        .smoke canvas {
+          opacity: 1 !important;
+        }
+        .torch {
+          display: none !important;
+        }
       }
     </style>
   </head>
-  <body>
-    <div class="page" id="page">
-      <canvas class="rail" id="rail" aria-hidden="true"></canvas>
 
-      <header class="topbar" id="topbar">
-        <div class="shell topbar-in">
-          <a class="mark" href="#top">Красная нить</a>
-          <nav class="nav">
+  <body>
+    <noscript>
+      <style>
+        /* Если скрипты выключены, показываем всё сразу: страница обязана
+           читаться целиком без единой строчки JavaScript. */
+        [data-enter],
+        .kin span,
+        .bg {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+        }
+        .step::after {
+          transform: scaleX(1) !important;
+        }
+        .final .taut::after {
+          transform: scaleX(1) !important;
+        }
+        .smoke canvas {
+          opacity: 1 !important;
+          animation: none !important;
+        }
+        #thread,
+        .torch,
+        .rail-num {
+          display: none;
+        }
+      </style>
+    </noscript>
+
+    <a class="skip" href="#main">К содержанию</a>
+
+    <div class="env" aria-hidden="true"></div>
+    <div class="torch" id="torch" aria-hidden="true"></div>
+    <canvas id="thread" aria-hidden="true"></canvas>
+    <p class="rail-num" id="railnum" aria-hidden="true"></p>
+
+    <div class="page">
+      <header class="top" id="top">
+        <div class="shell">
+          <a class="mark" href="#top"><i aria-hidden="true"></i>Красная нить</a>
+          <nav class="nav" aria-label="Разделы страницы">
             <a href="#arc">Дуга</a>
             <a href="#program">Программа</a>
+            <a href="#price">Цена</a>
             <a href="#signup">Запись</a>
           </nav>
         </div>
       </header>
 
-      <main id="top">
+      <main id="main" tabindex="-1">
+        <!-- ГЕРОЙ -->
         <section class="hero">
-          <div class="shell stack">
-            <p class="label rise">Мастерская сторителлинга · Поток №14</p>
-            <h1 class="rise" data-delay="1" data-knot data-amp="0">
-              Факты забывают.<br />Помнят, <em>чем всё кончилось</em>.
+          <div class="smoke" id="smoke" aria-hidden="true">
+            <canvas id="herocv"></canvas>
+            <span class="grainlive"></span>
+          </div>
+
+          <div class="shell">
+            <p class="kicker" data-enter="up">
+              Мастерская сторителлинга · Поток №14
+            </p>
+
+            <!-- Буквы нарезает скрипт: тот же приём, что у остальных
+                 заголовков, только крупнее и медленнее. Без скрипта
+                 строка просто стоит на месте и читается. -->
+            <h1 class="kin kin-hero">
+              Факты забывают. Помнят,
+              <span class="ac">чем всё кончилось.</span>
             </h1>
-            <p class="prose rise" data-delay="2">
+
+            <p class="lede" data-enter="up" style="--d: 0.5s">
               Двухнедельный интенсив для тех, кому нужно, чтобы их дослушали до
               конца: основателей, маркетологов, продактов и всех, кто выходит к
               людям с текстом или со слайдами.
             </p>
-            <div class="btn-row rise" data-delay="3">
+
+            <div class="btn-row" data-enter="up" style="--d: 0.65s">
               <a class="btn" href="#signup">Записаться на поток</a>
               <a class="btn btn-ghost" href="#program">Посмотреть программу</a>
             </div>
-            <p class="meta rise" data-delay="4">
-              <span>Старт 15 сентября</span>
+
+            <p class="note" data-enter="up" style="--d: 0.75s">
+              Сначала разговор в Telegram. Ничего не списывается и не
+              бронируется автоматически.
+            </p>
+
+            <p class="facts" data-enter="up" style="--d: 0.85s">
+              <span>Старт 13 октября</span>
               <span>10 занятий по 2 часа</span>
               <span>Группа 12 человек</span>
             </p>
           </div>
+
+          <p class="scrollcue" aria-hidden="true">Листайте</p>
         </section>
 
-        <section id="why">
-          <div class="shell stack">
-            <p class="label rise">В чём разница</p>
-            <h2
-              class="rise"
-              data-delay="1"
-              data-knot
-              data-amp="-0.55"
-              style="
-                font-size: clamp(28px, 3.8vw, 46px);
-                line-height: 1.14;
-                max-width: 18ch;
-              "
-            >
-              Одни и те же данные можно подать так, что их перескажут — или так,
-              что их пролистают
+        <!-- ПОЛОСА ДОВЕРИЯ -->
+        <section class="strip" style="padding-block: 30px">
+          <div class="shell">
+            <p data-enter="up"><b>14</b><small>потоков</small></p>
+            <p data-enter="up" style="--d: 0.08s">
+              <b>4</b><small>года практики</small>
+            </p>
+            <p data-enter="up" style="--d: 0.16s">
+              <b>12</b><small>человек в группе</small>
+            </p>
+            <p data-enter="up" style="--d: 0.24s">
+              <b>10</b><small>разборов вслух</small>
+            </p>
+          </div>
+          <div class="shell">
+            <p class="sample" data-enter="up" style="--d: 0.32s">
+              Числа — образец для демонстрации
+            </p>
+          </div>
+        </section>
+
+        <!-- БОЛЬ -->
+        <section id="pain" data-num="01" data-name="Знакомо">
+          <div class="bg bg-a1" aria-hidden="true"><i></i><u></u></div>
+          <div class="shell">
+            <h2 data-enter="rise">Нить рвётся в одном и том же месте</h2>
+
+            <div class="voices">
+              <p class="voice" data-enter="left">
+                «Не могу донести до нужных людей свои мысли»
+              </p>
+              <p class="voice" data-enter="right" style="--d: 0.08s">
+                «Слайды листают, пока я ещё говорю»
+              </p>
+              <p class="voice" data-enter="left" style="--d: 0.16s">
+                «Начинаю оправдываться на первом же вопросе»
+              </p>
+              <p class="voice" data-enter="right" style="--d: 0.24s">
+                «Перед руководством говорю хуже, чем думаю»
+              </p>
+              <p class="voice" data-enter="left" style="--d: 0.32s">
+                «Знаю, что сказать, и не знаю, с чего начать»
+              </p>
+              <p class="voice" data-enter="right" style="--d: 0.4s">
+                «Досидели до конца и не запомнили ничего»
+              </p>
+            </div>
+
+            <p class="verdict" data-enter="blur" style="--d: 0.2s">
+              Дело редко в смелости или в голосе. Чаще проседает сама история.
+            </p>
+          </div>
+        </section>
+
+
+        <!-- Бегущая строка. Две одинаковые половины: на -50% лента
+             перескакивает в начало и шва не видно. -->
+        <!-- aria-hidden сидит на самой ленте, а не на обёртке: внутри
+             обёртки стоит кнопка, а фокусируемый элемент нельзя прятать
+             от скринридера. -->
+        <div class="ticker" id="ticker">
+          <button
+            class="tickstop"
+            id="tickstop"
+            type="button"
+            aria-pressed="false"
+            aria-label="Остановить бегущую строку"
+          >
+            <i aria-hidden="true"></i><i aria-hidden="true"></i>
+          </button>
+          <div class="tick-row" aria-hidden="true">
+            <span>Список не запоминают. Запоминают поворот</span>
+            <span>Сначала человек, потом цифры</span>
+            <span>Если можно вычеркнуть, вычеркните</span>
+            <span>Вас слушают до первой скучной фразы</span>
+            <span>Одна деталь весит больше трёх прилагательных</span>
+            <span>Список не запоминают. Запоминают поворот</span>
+            <span>Сначала человек, потом цифры</span>
+            <span>Если можно вычеркнуть, вычеркните</span>
+            <span>Вас слушают до первой скучной фразы</span>
+            <span>Одна деталь весит больше трёх прилагательных</span>
+          </div>
+        </div>
+
+        <!-- СРАВНЕНИЕ -->
+        <section id="why" class="amb amb-noise" data-num="02" data-name="Разница">
+          <div class="shell">
+            <h2 data-enter="rise">
+              Одни и те же данные пересказывают или пролистывают
             </h2>
-            <div class="compare rise" data-delay="2">
-              <div class="compare-col">
+
+            <div class="versus">
+              <div class="col" data-enter="left">
                 <h3>Как обычно</h3>
                 <ul>
                   <li>Начинают с себя: «мы основаны в 2019 году»</li>
@@ -747,412 +2957,1577 @@
                   <li>Вывод остаётся в голове у автора</li>
                 </ul>
               </div>
-              <div class="compare-col is-ours">
+              <div class="col ours" data-enter="right" style="--d: 0.12s">
                 <h3>Как на курсе</h3>
                 <ul>
                   <li>Начинают с человека и его проблемы</li>
                   <li>У каждой истории есть цена ошибки</li>
                   <li>Напряжение растёт и разрешается</li>
-                  <li>Мысль звучит вслух — и её повторяют за вами</li>
+                  <li>Мысль звучит вслух, и её повторяют за вами</li>
                 </ul>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="arc">
-          <div class="shell stack">
-            <p class="label rise">Инструмент №1</p>
-            <h2
-              class="rise"
-              data-delay="1"
-              data-knot
-              data-amp="0.4"
-              style="font-size: clamp(28px, 3.8vw, 46px); line-height: 1.14"
-            >
-              Дуга напряжения
-            </h2>
-            <p class="prose rise" data-delay="2">
-              Любая история, которую дослушивают, держится на одной кривой:
-              напряжение растёт, доходит до точки, где решается всё, и
-              отпускает. Пять опор — и текст перестаёт быть перечислением.
-            </p>
 
-            <div class="rise" data-delay="3">
-              <svg
-                class="arc-svg"
-                viewBox="0 0 820 250"
-                role="img"
-                aria-label="Кривая напряжения истории: от экспозиции через развитие к кульминации и развязке"
-              >
-                <line class="base" x1="40" y1="222" x2="800" y2="222"></line>
-                <path
-                  class="curve"
-                  d="M60 208 C 120 205, 160 200, 210 192 C 300 178, 350 148, 430 118 C 520 84, 570 62, 630 34 C 676 62, 700 140, 770 186"
-                ></path>
-
-                <circle class="dot" cx="60" cy="208" r="9"></circle>
-                <circle class="dot" cx="210" cy="192" r="9"></circle>
-                <circle class="dot" cx="430" cy="118" r="9"></circle>
-                <circle class="dot" cx="630" cy="34" r="9"></circle>
-                <circle class="dot" cx="770" cy="186" r="9"></circle>
-
-                <text class="num" x="60" y="208">1</text>
-                <text class="num" x="210" y="192">2</text>
-                <text class="num" x="430" y="118">3</text>
-                <text class="num" x="630" y="34">4</text>
-                <text class="num" x="770" y="186">5</text>
-
-                <text class="axis" x="40" y="243">начало</text>
-                <text class="axis" x="800" y="243" text-anchor="end">
-                  конец
-                </text>
-              </svg>
-            </div>
-
-            <ol class="beats rise" data-delay="4">
-              <li class="beat">
-                <span class="beat-num">01</span>
-                <span class="beat-name">Экспозиция</span>
-                <span class="beat-text"
-                  >Кто герой и что для него нормально. Коротко — иначе слушатель
-                  уйдёт до завязки.</span
-                >
-              </li>
-              <li class="beat">
-                <span class="beat-num">02</span>
-                <span class="beat-name">Завязка</span>
-                <span class="beat-text"
-                  >Событие, после которого жить по-старому нельзя. Здесь
-                  появляется ставка.</span
-                >
-              </li>
-              <li class="beat">
-                <span class="beat-num">03</span>
-                <span class="beat-name">Развитие</span>
-                <span class="beat-text"
-                  >Попытки, ошибки, сопротивление. С каждым шагом цена решения
-                  растёт.</span
-                >
-              </li>
-              <li class="beat">
-                <span class="beat-num">04</span>
-                <span class="beat-name">Кульминация</span>
-                <span class="beat-text"
-                  >Момент, где решается всё. Одна сцена, одна фраза, один
-                  выбор.</span
-                >
-              </li>
-              <li class="beat">
-                <span class="beat-num">05</span>
-                <span class="beat-name">Развязка</span>
-                <span class="beat-text"
-                  >Новая норма — и мысль, ради которой всё затевалось. Её и
-                  запомнят.</span
-                >
-              </li>
-            </ol>
-          </div>
-        </section>
-
-        <section id="program">
-          <div class="shell stack">
-            <p class="label rise">Программа</p>
-            <h2
-              class="rise"
-              data-delay="1"
-              data-knot
-              data-amp="-0.3"
-              style="font-size: clamp(28px, 3.8vw, 46px); line-height: 1.14"
-            >
-              Четыре модуля, десять занятий
-            </h2>
-            <p class="prose rise" data-delay="2">
-              Каждое занятие — короткая теория и разбор ваших текстов вслух. К
-              финалу у вас есть готовое выступление и три истории, которые можно
-              рассказывать хоть завтра.
-            </p>
-            <ol class="modules rise" data-delay="3">
-              <li class="module">
-                <span class="module-name">Герой и ставка</span>
-                <span class="module-text"
-                  >Кому сопереживают и почему. Как найти героя в отчёте о
-                  продажах.</span
-                >
-                <span class="module-len">3 занятия</span>
-              </li>
-              <li class="module">
-                <span class="module-name">Структура и ритм</span>
-                <span class="module-text"
-                  >Дуга напряжения на практике. Где резать, где замедлять, чем
-                  заканчивать.</span
-                >
-                <span class="module-len">3 занятия</span>
-              </li>
-              <li class="module">
-                <span class="module-name">Голос и деталь</span>
-                <span class="module-text"
-                  >Одна точная деталь вместо трёх прилагательных. Свой тон
-                  вместо корпоративного.</span
-                >
-                <span class="module-len">2 занятия</span>
-              </li>
-              <li class="module">
-                <span class="module-name">Сцена</span>
-                <span class="module-text"
-                  >Выступление перед группой, запись на видео и разбор — по
-                  кадрам и по паузам.</span
-                >
-                <span class="module-len">2 занятия</span>
-              </li>
-            </ol>
-          </div>
-        </section>
-
-        <section id="quote">
+        <!-- Разворот на странице ровно один. Три цитаты разбавляли друг
+             друга; одна сильная держит интонацию всей страницы.
+             Источник: Joan Didion, «The White Album», 1979. -->
+        <section class="spread amb amb-pool">
           <div class="shell">
-            <figure class="quote rise" data-knot data-amp="0.8">
-              <blockquote>
-                Я перестала защищать презентацию. Теперь её просто слушают.
-              </blockquote>
-              <figcaption>Марина, руководитель продукта · поток №11</figcaption>
+            <figure data-enter="blur">
+              <blockquote>Мы рассказываем себе истории, чтобы жить</blockquote>
+              <figcaption>Джоан Дидион · «The White Album», 1979</figcaption>
             </figure>
           </div>
         </section>
 
-        <section id="signup">
+        <!-- ДУГА: фирменная секция -->
+        <section id="arc" class="amb amb-grid" data-num="03" data-name="Дуга">
           <div class="shell">
-            <div class="signup rise" data-knot data-amp="0.05">
-              <div class="stack">
-                <p class="label">Ближайший поток</p>
-                <h2>Старт 15 сентября. Осталось 12 мест.</h2>
-                <p class="prose">
-                  Занятия по вторникам и четвергам, 19:00 по Москве. Записи
-                  остаются навсегда, разборы — только вживую.
-                </p>
-                <p class="price">
-                  <b>38 000 ₽</b> &nbsp;·&nbsp; до 20 августа — 32 000 ₽
+            <p class="kicker" data-enter="up">Инструмент №1</p>
+            <h2 data-enter="rise">Дуга напряжения</h2>
+            <p class="lede" data-enter="up" style="--d: 0.1s">
+              Любая история, которую дослушивают, держится на одной кривой:
+              напряжение растёт, доходит до точки, где решается всё, и
+              отпускает. Пять опор, и текст перестаёт быть перечислением.
+            </p>
+
+            <div class="arcwrap" data-enter="wide" style="--d: 0.15s">
+              <div class="arcstage" id="arcstage">
+                <!-- Это не график, а сама нить. Ленту переменной толщины
+                     строит скрипт по направляющей #curve: где накал выше,
+                     там нить толще и горит ярче. Без скрипта направляющая
+                     просто остаётся видимой кривой. -->
+                <svg
+                  class="arc"
+                  id="arcsvg"
+                  viewBox="0 0 820 260"
+                  role="img"
+                  aria-label="Нить истории: натягивается от экспозиции через кульминацию и отпускает на развязке"
+                >
+                  <defs>
+                    <linearGradient id="thr" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stop-color="var(--accent-deep)" />
+                      <stop offset="0.62" stop-color="var(--accent)" />
+                      <stop offset="1" stop-color="var(--amber)" />
+                    </linearGradient>
+                    <filter
+                      id="thrglow"
+                      x="-30%"
+                      y="-30%"
+                      width="160%"
+                      height="160%"
+                    >
+                      <feGaussianBlur stdDeviation="5" result="b" />
+                      <feMerge>
+                        <feMergeNode in="b" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                    <clipPath id="thrclip">
+                      <rect id="thrrect" x="0" y="0" width="60" height="260" />
+                    </clipPath>
+                  </defs>
+
+                  <line class="base" x1="40" y1="222" x2="800" y2="222"></line>
+
+                  <path
+                    id="curve"
+                    d="M60 208 C 120 205, 160 200, 210 192 C 300 178, 350 148, 430 118 C 520 84, 570 62, 630 34 C 676 62, 700 140, 770 186"
+                    fill="none"
+                    stroke="url(#thr)"
+                    stroke-width="3"
+                  ></path>
+
+                  <path id="ribdim" d="" fill="var(--ribbon-dim)"></path>
+                  <g clip-path="url(#thrclip)">
+                    <path id="riblit" d="" fill="url(#thr)" filter="url(#thrglow)"></path>
+                  </g>
+
+                  <circle class="dot" cx="60" cy="208" r="7"></circle>
+                  <circle class="dot" cx="210" cy="192" r="7"></circle>
+                  <circle class="dot" cx="430" cy="118" r="7"></circle>
+                  <circle class="dot" cx="630" cy="34" r="7"></circle>
+                  <circle class="dot" cx="770" cy="186" r="7"></circle>
+
+                  <text class="num" x="60" y="236">1</text>
+                  <text class="num" x="210" y="220">2</text>
+                  <text class="num" x="430" y="146">3</text>
+                  <text class="num" x="630" y="20">4</text>
+                  <text class="num" x="770" y="214">5</text>
+
+                  <circle class="head" id="head" cx="60" cy="208" r="6"></circle>
+
+                  <text class="axis" x="40" y="252">начало</text>
+                  <text class="axis" x="800" y="252" text-anchor="end">
+                    конец
+                  </text>
+                </svg>
+              </div>
+
+              <div class="beatbox" id="beatbox" aria-live="polite">
+                <span class="bn" id="bn">01</span>
+                <span class="bt" id="bt">Экспозиция</span>
+                <p class="bd" id="bd">
+                  Кто герой и что для него нормально. Коротко, иначе слушатель
+                  уйдёт до завязки.
                 </p>
               </div>
 
-              <!-- Записываемся через мессенджер, а не формой: на статичном
-                   хостинге у формы нет приёмника, а без сбора имени и почты
-                   не возникает и обязанностей по 152-ФЗ. -->
-              <div class="stack-s signup-cta">
-                <p class="prose">
-                  Напишите в Telegram — отвечу и придержу место. Расскажу про
-                  программу, если сомневаетесь, подходит ли поток именно вам.
+              <div
+                class="beatnav"
+                id="beatnav"
+                role="group"
+                aria-label="Опоры истории"
+              >
+                <button type="button" data-i="0" aria-current="true">
+                  01 Экспозиция
+                </button>
+                <button type="button" data-i="1">02 Завязка</button>
+                <button type="button" data-i="2">03 Развитие</button>
+                <button type="button" data-i="3">04 Кульминация</button>
+                <button type="button" data-i="4">05 Развязка</button>
+              </div>
+
+              <p class="hint" id="hint">
+                Проведите курсором вдоль нити или выберите опору
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- КАК ПРОХОДИТ -->
+        <section id="how" class="amb amb-rings" data-num="04" data-name="Занятие">
+          <div class="shell">
+            <h2 data-enter="rise">Два часа, и половина из них про ваш текст</h2>
+
+            <ol class="steps">
+              <li class="step" data-enter="up">
+                <b>20 минут теории</b>
+                <p>
+                  Один приём за занятие, разобранный на чужом примере. Записи
+                  остаются, конспект не нужен.
                 </p>
-                <div class="btn-row">
-                  <a
-                    class="btn"
-                    href="https://t.me/serhio2490"
-                    target="_blank"
-                    rel="noopener"
-                    >Написать в Telegram</a
-                  >
-                </div>
-                <p class="form-note">
-                  Отвечаю в рабочее время. Ничего не списывается и не
-                  бронируется автоматически — сначала разговор.
+              </li>
+              <li class="step" data-enter="up" style="--d: 0.12s">
+                <b>Ваш текст вслух</b>
+                <p>
+                  Читаете то, что написали к занятию. Группа слушает и говорит,
+                  в какой момент отпустило внимание.
+                </p>
+              </li>
+              <li class="step" data-enter="up" style="--d: 0.24s">
+                <b>Разбор по кадрам</b>
+                <p>
+                  Где потеряли слушателя, какой фразой вернуть, что вычеркнуть
+                  без потерь.
+                </p>
+              </li>
+            </ol>
+
+            <p class="whyprice" data-enter="up" style="--d: 0.3s">
+              Домашняя работа одна и та же каждую неделю: одна история, пять
+              предложений. К десятому занятию их набирается десять, и три из них
+              обычно готовы к работе.
+            </p>
+          </div>
+        </section>
+
+        <!-- ПРОГРАММА -->
+        <section id="program" data-num="05" data-name="Программа">
+          <div class="bg bg-b1" aria-hidden="true"><i></i><u></u></div>
+          <div class="shell">
+            <h2 data-enter="rise">Четыре модуля, десять занятий</h2>
+
+            <ol class="modules">
+              <li class="module" data-enter="up">
+                <span class="mi">01</span>
+                <span class="mn">Герой и ставка</span>
+                <span class="mt"
+                  >Кому сопереживают и почему. Как найти героя в отчёте о
+                  продажах.</span
+                >
+                <span class="ml">3 занятия</span>
+              </li>
+              <li class="module" data-enter="up" style="--d: 0.08s">
+                <span class="mi">02</span>
+                <span class="mn">Структура и ритм</span>
+                <span class="mt"
+                  >Дуга напряжения на практике. Где резать, где замедлять, чем
+                  заканчивать.</span
+                >
+                <span class="ml">3 занятия</span>
+              </li>
+              <li class="module" data-enter="up" style="--d: 0.16s">
+                <span class="mi">03</span>
+                <span class="mn">Голос и деталь</span>
+                <span class="mt"
+                  >Одна точная деталь вместо трёх прилагательных. Свой тон
+                  вместо корпоративного.</span
+                >
+                <span class="ml">2 занятия</span>
+              </li>
+              <li class="module" data-enter="up" style="--d: 0.24s">
+                <span class="mi">04</span>
+                <span class="mn">Сцена</span>
+                <span class="mt"
+                  >Выступление перед группой, запись на видео и разбор по кадрам
+                  и по паузам.</span
+                >
+                <span class="ml">2 занятия</span>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+
+        <!-- ВЕДУЩИЙ -->
+        <section id="host" class="amb amb-window" data-num="06" data-name="Ведущая">
+          <div class="shell">
+            <h2 data-enter="rise">Кто ведёт</h2>
+            <div class="host" data-enter="up" style="--d: 0.1s">
+              <div class="portrait" aria-hidden="true">А</div>
+              <div>
+                <div class="who">Анна Реброва</div>
+                <div class="role">Ведущая потока</div>
+                <p>
+                  Двенадцать лет в редакциях и в продуктовых командах. Собирала
+                  питчи для трёх стартапов, два из них получили деньги. Четыре
+                  года ведёт «Красную нить», за это время через поток прошли сто
+                  шестьдесят восемь человек.
+                </p>
+                <p>
+                  Разборы ведёт сама, ассистентов нет: на потоке двенадцать
+                  человек ровно для того, чтобы каждого услышать десять раз.
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <!-- ОТЗЫВЫ -->
+        <section id="voices" class="amb amb-voices" data-num="07" data-name="Отзывы">
+          <div class="shell">
+            <h2 data-enter="rise">Что меняется на практике</h2>
+
+            <div class="quotes">
+              <figure class="quote" data-enter="blur">
+                <blockquote>
+                  Я перестала защищать презентацию. Теперь её просто слушают.
+                </blockquote>
+                <figcaption>
+                  Марина<br />руководитель продукта<br />поток №11
+                </figcaption>
+              </figure>
+              <figure class="quote" data-enter="blur" style="--d: 0.12s">
+                <blockquote>
+                  Питчил четыре раза, деньги дали на пятый. Разница была только
+                  в первых тридцати секундах.
+                </blockquote>
+                <figcaption>
+                  Дмитрий<br />основатель сервиса доставки<br />поток №9
+                </figcaption>
+              </figure>
+              <figure class="quote" data-enter="blur" style="--d: 0.24s">
+                <blockquote>
+                  Письмо команде пишу за двадцать минут вместо двух часов. И его
+                  дочитывают.
+                </blockquote>
+                <figcaption>
+                  Ольга<br />директор по персоналу<br />поток №12
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ЦЕНА -->
+        <section id="price" class="amb amb-calm" data-num="08" data-name="Цена">
+          <div class="shell">
+            <h2 data-enter="rise">Два способа пройти поток</h2>
+            <p class="sample" data-enter="up" style="--d: 0.08s">
+              Цены — образец для демонстрации
+            </p>
+
+            <div class="plans">
+              <div class="plan" data-enter="left">
+                <span class="tag">Поток</span>
+                <span class="sum">38 000 ₽</span>
+                <span class="sub">10 занятий, два раза в неделю</span>
+                <ul>
+                  <li>Десять разборов вашего текста вслух</li>
+                  <li>Записи занятий остаются навсегда</li>
+                  <li>Чат потока с ведущей до конца обучения</li>
+                  <li>Выступление на видео и разбор по кадрам</li>
+                </ul>
+                <a class="btn btn-ghost" href="#signup">Выбрать</a>
+              </div>
+
+              <div class="plan pick" data-enter="right" style="--d: 0.12s">
+                <span class="tag"
+                  >Поток и личный разбор · чаще всего берут</span
+                >
+                <span class="sum">52 000 ₽</span>
+                <span class="sub"
+                  >всё из первого варианта и ещё три встречи</span
+                >
+                <ul>
+                  <li>Три личные встречи по 45 минут</li>
+                  <li>Разбор вашего реального выступления или письма</li>
+                  <li>Правки текста построчно, а не только вслух</li>
+                  <li>Подготовка к конкретной дате, если она уже есть</li>
+                </ul>
+                <a class="btn" href="#signup">Выбрать</a>
+              </div>
+            </div>
+
+            <p class="whyprice" data-enter="up" style="--d: 0.2s">
+              В цене не записанные лекции, а десять разборов вслух: ваш текст
+              слушают двенадцать человек и ведущая. При оплате за две недели до
+              старта первый вариант стоит 34 000 ₽.
+            </p>
+          </div>
+        </section>
+
+        <!-- ВОЗРАЖЕНИЯ -->
+        <section id="faq" class="amb amb-weave" data-num="09" data-name="Вопросы">
+          <div class="shell">
+            <h2 data-enter="rise">Отвечаю прямо</h2>
+
+            <div class="faq" data-enter="up" style="--d: 0.1s">
+              <details>
+                <summary>Чем это лучше книги по сторителлингу?</summary>
+                <p class="ans">
+                  Книга объяснит дугу за один вечер, и объяснит хорошо. Она не
+                  скажет, где именно ваш текст провисает на третьей минуте и
+                  почему слушатель отвлёкся на слове «синергия». Это говорят
+                  вслух живые люди, десять раз за поток.
+                </p>
+              </details>
+              <details>
+                <summary>А если не сработает?</summary>
+                <p class="ans">
+                  После второго занятия можно забрать деньги полностью и без
+                  объяснений. Дальше возвращаю стоимость непройденных занятий.
+                  Два занятия достаточно, чтобы понять, ваш это формат или нет.
+                </p>
+              </details>
+              <details>
+                <summary>Почему 38 000 ₽?</summary>
+                <p class="ans">
+                  Это десять разборов вашего материала в группе из двенадцати
+                  человек плюс запись выступления. В пересчёте на занятие
+                  выходит 3 800 ₽ за два часа работы с вашим текстом. Одна
+                  личная консультация по презентации стоит примерно столько же.
+                </p>
+              </details>
+              <details>
+                <summary>Надо будет выступать перед группой?</summary>
+                <p class="ans">
+                  Да, читать свой текст вслух придётся с первого занятия, иначе
+                  разбирать нечего. Камеру можно не включать до четвёртого
+                  занятия, многие так и делают.
+                </p>
+              </details>
+              <details>
+                <summary>Я не пишу тексты, я делаю слайды. Подойдёт?</summary>
+                <p class="ans">
+                  Подойдёт. Слайд это тот же текст, только короче и с картинкой.
+                  Модуль «Сцена» целиком про выступление, а не про письмо, и
+                  разбираем там именно презентации.
+                </p>
+              </details>
+              <details>
+                <summary>Пропущу занятие, что будет?</summary>
+                <p class="ans">
+                  Запись придёт в тот же вечер, разбор вашего текста перенесём
+                  на следующее занятие. Без потерь можно пропустить два занятия
+                  из десяти, дальше догонять уже тяжело.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
+
+        <!-- ФИНАЛ -->
+        <section class="final" id="signup" data-num="10" data-name="Запись">
+          <div class="bg bg-c1" aria-hidden="true"><i></i><u></u></div>
+          <div class="shell">
+            <div class="taut" aria-hidden="true"></div>
+            <h2 data-enter="rise">Старт 13 октября</h2>
+            <p class="lede" data-enter="up" style="--d: 0.1s">
+              Занятия по вторникам и четвергам, 19:00 по Москве. Записи остаются
+              навсегда, разборы только вживую. Группа двенадцать человек, запись
+              открыта.
+            </p>
+
+            <!-- Записываемся через мессенджер, а не формой: на статичном
+                 хостинге у формы нет приёмника, а без сбора имени и телефона
+                 не возникает и обязанностей по 152-ФЗ. -->
+            <div class="btn-row" data-enter="up" style="--d: 0.2s">
+              <a
+                class="btn"
+                href="https://t.me/serhio2490"
+                target="_blank"
+                rel="noopener"
+                >Написать в Telegram</a
+              >
+            </div>
+            <p class="note" data-enter="up" style="--d: 0.28s">
+              Отвечу и придержу место. Расскажу про программу, если
+              сомневаетесь, подходит ли поток именно вам. Ничего не списывается
+              и не бронируется автоматически, сначала разговор.
+            </p>
           </div>
         </section>
       </main>
 
       <footer>
         <div class="shell foot">
-          <span>Красная нить — мастерская сторителлинга</span>
-          <a href="#top" class="sep">Наверх ↑</a>
+          <span>Красная нить · мастерская сторителлинга</span>
+          <a href="#top">Наверх ↑</a>
+          <span class="disclaimer">
+            Учебная демонстрационная страница. Название, ведущая, даты, цены и
+            отзывы вымышлены и показаны как образец.
+          </span>
         </div>
       </footer>
     </div>
 
     <script>
       (function () {
-        var reduce = window.matchMedia(
-          "(prefers-reduced-motion: reduce)",
-        ).matches;
+        "use strict";
 
-        /* --- Появление блоков при прокрутке --- */
-        var risers = document.querySelectorAll(".rise");
-        if (reduce || !("IntersectionObserver" in window)) {
-          risers.forEach(function (el) {
-            el.classList.add("seen");
-          });
-        } else {
-          var io = new IntersectionObserver(
-            function (entries) {
-              entries.forEach(function (e) {
-                if (e.isIntersecting) {
-                  e.target.classList.add("seen");
-                  io.unobserve(e.target);
-                }
-              });
-            },
-            { rootMargin: "0px 0px -12% 0px", threshold: 0.06 },
-          );
-          risers.forEach(function (el) {
-            io.observe(el);
-          });
+        var mqReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+        /* ЦВЕТА ХОЛСТА БЕРУТСЯ ИЗ ТОКЕНОВ.
+           Раньше в скрипте лежали свои копии красного, и при смене
+           палитры страница и холст разъезжались. Теперь источник
+           правды один — блок :root. */
+        var ROOT_STYLE = getComputedStyle(document.documentElement);
+        function chan(name) {
+          return ROOT_STYLE.getPropertyValue(name).trim();
+        }
+        var CH = {
+          accent: chan("--accent-rgb"),
+          strand: chan("--strand-rgb"),
+          spark: chan("--spark-rgb"),
+          void: chan("--void-rgb"),
+          heroglow: chan("--heroglow-rgb"),
+        };
+        function tone(channels, alpha) {
+          return "rgb(" + channels + " / " + alpha + ")";
+        }
+        var COLOR_SPARK = chan("--spark") || COLOR_SPARK;
+        var COLOR_ACCENT = chan("--accent") || "#e23a4e";
 
-          /* Страховка. Наблюдатель не присылает первое уведомление, если вкладка
-             в момент загрузки скрыта: в фоновых вкладках браузер не выполняет шаг
-             отрисовки. Человек открывает такую вкладку и видит пустой первый экран.
-             Через 3 секунды показываем всё, что уже находится в пределах экрана;
-             блоки ниже сгиба продолжают появляться при прокрутке, как задумано. */
-          setTimeout(function () {
-            risers.forEach(function (el) {
-              if (el.classList.contains("seen")) return;
-              var r = el.getBoundingClientRect();
-              if (r.top < window.innerHeight && r.bottom > 0) {
-                el.classList.add("seen");
-                io.unobserve(el);
+        var reduce = mqReduce.matches;
+
+        /* =========================================================
+           ВХОДЫ СЕКЦИЙ
+           Не наблюдатель, а прямой обход по прокрутке. Наблюдатель
+           пропускал блоки, пролетевшие мимо экрана между проверками:
+           при быстром листании 28 блоков из 60 оставались невидимыми.
+           Список только укорачивается, поэтому обход дешевеет.
+           ========================================================= */
+        /* Заголовки режем на буквы и набираем их по порядку письма,
+           слева направо. Каждая буква — inline-block, поэтому слово
+           заворачиваем в обёртку с white-space: nowrap: иначе строка
+           переносилась бы посреди слова.
+           Обход рекурсивный: внутри заголовка могут стоять элементы
+           (например .ac у героя), их надо сохранить, а не потерять. */
+        function cutToChars(root) {
+          var n = 0;
+
+          function walk(node) {
+            var kids = [].slice.call(node.childNodes);
+            for (var k = 0; k < kids.length; k++) {
+              var kid = kids[k];
+              if (kid.nodeType === 1) {
+                walk(kid);
+                continue;
               }
-            });
-          }, 3000);
+              if (kid.nodeType !== 3) continue;
+              var text = kid.nodeValue.replace(/\s+/g, " ");
+              if (!text.trim()) {
+                kid.nodeValue = text;
+                continue;
+              }
+              var frag = document.createDocumentFragment();
+              var parts = text.split(" ");
+              for (var wi = 0; wi < parts.length; wi++) {
+                if (parts[wi]) {
+                  var w = document.createElement("span");
+                  w.className = "w";
+                  for (var ci = 0; ci < parts[wi].length; ci++) {
+                    var c = document.createElement("span");
+                    c.className = "c";
+                    c.textContent = parts[wi][ci];
+                    c.style.setProperty("--i", n++);
+                    w.appendChild(c);
+                  }
+                  frag.appendChild(w);
+                }
+                if (wi < parts.length - 1) {
+                  frag.appendChild(document.createTextNode(" "));
+                }
+              }
+              node.replaceChild(frag, kid);
+            }
+          }
 
-          /* Второй рубеж: если через 8 секунд не проявился вообще ни один блок,
-             значит наблюдатель не работает совсем. Тогда показываем страницу
-             целиком — текст важнее анимации. */
-          setTimeout(function () {
-            if (document.querySelector(".rise.seen")) return;
-            risers.forEach(function (el) {
-              el.classList.add("seen");
-              io.unobserve(el);
-            });
-          }, 8000);
+          walk(root);
+          return n;
         }
 
-        /* --- Граница у шапки после прокрутки --- */
-        var topbar = document.getElementById("topbar");
-        function stuck() {
-          topbar.dataset.stuck = window.scrollY > 8 ? "true" : "false";
-        }
-        stuck();
-
-        /* --- Красная нить: кривая, сшивающая страницу --- */
-        var canvas = document.getElementById("rail");
-        var page = document.getElementById("page");
-        var ctx = canvas.getContext("2d");
-        var knots = [];
-        var W = 0,
-          H = 0;
-
-        function css(name) {
-          return getComputedStyle(document.documentElement)
-            .getPropertyValue(name)
-            .trim();
+        function setupHead(h, budget, minStep, maxStep) {
+          var n = cutToChars(h);
+          var step = Math.max(minStep, Math.min(maxStep, Math.round(budget / n)));
+          h.style.setProperty("--step", step + "ms");
         }
 
-        function layout() {
-          if (!canvas.offsetParent) return false;
-          var rect = canvas.getBoundingClientRect();
-          var pageTop = page.getBoundingClientRect().top + window.scrollY;
-          W = rect.width;
-          H = page.offsetHeight;
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = Math.round(W * dpr);
-          canvas.height = Math.round(H * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var heads = document.querySelectorAll("h2[data-enter]");
+        for (var hi = 0; hi < heads.length; hi++) {
+          heads[hi].removeAttribute("data-enter");
+          heads[hi].className += " kin";
+          setupHead(heads[hi], 1400, 20, 38);
+        }
 
-          var pad = 22;
-          var mid = W / 2;
-          var span = mid - pad;
+        var heroHead = document.querySelector(".kin-hero");
+        if (heroHead) setupHead(heroHead, 1900, 26, 46);
 
-          knots = [{ x: mid, y: 0 }];
-          document.querySelectorAll("[data-knot]").forEach(function (el) {
-            var r = el.getBoundingClientRect();
-            var amp = parseFloat(el.getAttribute("data-amp") || "0");
-            knots.push({
-              x: mid + amp * span,
-              y: r.top + window.scrollY - pageTop + r.height / 2,
-              mark: true,
+        var pending = [].slice.call(
+          document.querySelectorAll(
+            "[data-enter], .step, .final, .kin, .bg",
+          ),
+        );
+
+        function showAll() {
+          for (var i = 0; i < pending.length; i++) pending[i].classList.add("in");
+          pending = [];
+        }
+
+        function sweep() {
+          if (!pending.length) return;
+          var edge = window.innerHeight * 0.92;
+          var rest = [];
+          for (var i = 0; i < pending.length; i++) {
+            var el = pending[i];
+            if (el.getBoundingClientRect().top < edge) el.classList.add("in");
+            else rest.push(el);
+          }
+          pending = rest;
+        }
+
+        function queueSweep() {
+          sweep();
+        }
+
+        /* =========================================================
+           ШАПКА: подложка появляется после первого экрана
+           ========================================================= */
+        var top = document.querySelector(".top");
+        var stuck = false;
+
+        function headerCheck() {
+          var want = window.scrollY > 90;
+          if (want !== stuck) {
+            stuck = want;
+            top.classList.toggle("stuck", want);
+          }
+        }
+
+        /* =========================================================
+           СВЕТ ЗА КУРСОРОМ, МАГНИТ НА КНОПКАХ, ПАРАЛЛАКС,
+           НОМЕР СЕКЦИИ И СЧЁТЧИКИ.
+           Всё считается внутри общего кадрового цикла, отдельных
+           обработчиков на каждое движение мыши нет: иначе браузер
+           меряет разметку по сто раз в секунду и страница дёргается.
+           ========================================================= */
+        var fine = window.matchMedia("(pointer: fine)").matches;
+
+        var torch = document.getElementById("torch");
+        var torchX = 0,
+          torchY = 0,
+          torchTX = 0,
+          torchTY = 0;
+        var ptrX = -9999,
+          ptrY = -9999,
+          ptrLive = false;
+
+        function torchStep(dt) {
+          if (!fine || reduce) return;
+          torchTX = ptrX;
+          torchTY = ptrY;
+          torchX += (torchTX - torchX) * 0.11 * dt;
+          torchY += (torchTY - torchY) * 0.11 * dt;
+          torch.style.transform =
+            "translate3d(" + Math.round(torchX) + "px," + Math.round(torchY) + "px,0)";
+          magnetStep();
+        }
+
+        var btns = [].slice.call(document.querySelectorAll(".btn"));
+
+        function magnetStep() {
+          if (!ptrLive) return;
+          var vh = window.innerHeight;
+          for (var i = 0; i < btns.length; i++) {
+            var b = btns[i];
+            var r = b.getBoundingClientRect();
+            if (r.bottom < -120 || r.top > vh + 120) continue;
+            var dx = ptrX - (r.left + r.width / 2);
+            var dy = ptrY - (r.top + r.height / 2);
+            var d = Math.sqrt(dx * dx + dy * dy);
+            var reach = r.width / 2 + 60;
+            if (d < reach) {
+              var k = (1 - d / reach) * 0.3;
+              b.classList.add("pulled");
+              b.style.setProperty("--mx", (dx * k).toFixed(1) + "px");
+              b.style.setProperty("--my", (dy * k * 1.4).toFixed(1) + "px");
+            } else if (b.style.getPropertyValue("--mx") !== "0px") {
+              b.classList.remove("pulled");
+              b.style.setProperty("--mx", "0px");
+              b.style.setProperty("--my", "0px");
+            }
+          }
+        }
+
+        if (fine) {
+          window.addEventListener(
+            "pointermove",
+            function (e) {
+              ptrX = e.clientX;
+              ptrY = e.clientY;
+              if (!ptrLive) {
+                ptrLive = true;
+                torchX = ptrX;
+                torchY = ptrY;
+                if (!reduce) torch.className += " lit";
+              }
+              wake();
+            },
+            { passive: true },
+          );
+        }
+
+        /* ---------- Дым первого экрана ----------
+           Уходит от курсора и уплывает вверх быстрее страницы,
+           когда первый экран покидает окно. */
+        var smoke = document.getElementById("smoke");
+        var smokeSX = 0;
+
+        function smokeStep() {
+          if (!smoke || reduce) return;
+          var vh = window.innerHeight;
+          var k = Math.min(1, window.scrollY / vh);
+          var sy = Math.round(-k * vh * 0.22);
+          var so = (1 - k * 0.92).toFixed(2);
+
+          /* Курсор двигает кадр не напрямую: цель считается от позиции мыши,
+             а сам кадр догоняет её по 4% за кадр. Без этого догона кадр
+             повторял каждое дрожание руки и на мелких движениях дёргался
+             влево-вправо. Округление до целого пикселя убрано по той же
+             причине: оно превращало плавный ход в ступеньки по 1 px. */
+          var want = fine && ptrLive ? (window.innerWidth / 2 - ptrX) * 0.022 : 0;
+          smokeSX += (want - smokeSX) * 0.04;
+          if (Math.abs(smokeSX) < 0.01) smokeSX = 0;
+          var sx = smokeSX.toFixed(2);
+
+          if (smoke.__sy !== sy) {
+            smoke.__sy = sy;
+            smoke.style.setProperty("--sy", sy + "px");
+          }
+          if (smoke.__so !== so) {
+            smoke.__so = so;
+            smoke.style.setProperty("--so", so);
+          }
+          if (smoke.__sx !== sx) {
+            smoke.__sx = sx;
+            smoke.style.setProperty("--sx", sx + "px");
+          }
+        }
+
+        /* ---------- Параллакс фоновых кадров ---------- */
+        var bgs = [].slice.call(document.querySelectorAll(".bg"));
+
+        function parallaxStep() {
+          if (reduce) return;
+          var vh = window.innerHeight;
+          for (var i = 0; i < bgs.length; i++) {
+            var b = bgs[i];
+            var r = b.getBoundingClientRect();
+            if (r.bottom < -120 || r.top > vh + 120) continue;
+            var off = r.top + r.height / 2 - vh / 2;
+            var v = Math.round(off * -0.08);
+            if (b.__p !== v) {
+              b.__p = v;
+              b.style.setProperty("--p", v + "px");
+            }
+          }
+        }
+
+        /* =========================================================
+           НИТЬ ПЕРВОГО ЭКРАНА НА ХОЛСТЕ
+           Четыре прохода одной и той же кривой: широкий тусклый даёт
+           ореол, средний — тело, узкий яркий — сердцевину. Плюс
+           тёплое пятно позади текста и медленно всплывающие пылинки.
+           Свой кадровый цикл, потому что общий засыпает в покое,
+           а нить обязана дышать всегда.
+           ========================================================= */
+        (function heroThread() {
+          var cv = document.getElementById("herocv");
+          if (!cv) return;
+          var c = cv.getContext("2d");
+          var W = 0,
+            H = 0,
+            t = 0,
+            live = true;
+
+          /* Докуда простирается колонка текста. Считаем по настоящим
+             элементам, а не по процентам от ширины окна: колонка
+             центрируется, и на широком экране проценты врут. */
+          var shieldR = 0.62;
+
+          function measureColumn() {
+            var box = cv.getBoundingClientRect();
+            if (!box.width) return;
+            var sel = [
+              ".hero .kicker",
+              ".hero h1",
+              ".hero .lede",
+              ".hero .btn-row",
+              ".hero .note",
+              ".hero .facts",
+            ];
+            var right = 0;
+            for (var i = 0; i < sel.length; i++) {
+              var el = document.querySelector(sel[i]);
+              if (!el) continue;
+              var r = el.getBoundingClientRect();
+              if (r.width) right = Math.max(right, r.right - box.left);
+            }
+            shieldR = right ? Math.min(0.99, right / box.width + 0.01) : 0.62;
+          }
+
+          function size() {
+            var r = cv.getBoundingClientRect();
+            if (!r.width) return;
+            var dpr = Math.min(2, window.devicePixelRatio || 1);
+            W = r.width;
+            H = r.height;
+            cv.width = Math.round(W * dpr);
+            cv.height = Math.round(H * dpr);
+            c.setTransform(dpr, 0, 0, dpr, 0, 0);
+            measureColumn();
+          }
+
+          function strand(off, amp, alpha, width, blur) {
+            c.save();
+            c.beginPath();
+            for (var i = 0; i <= 130; i++) {
+              var u = i / 130;
+              var x = u * W;
+              var y =
+                H * (0.3 + off) +
+                Math.sin(u * 2.4 + t * 0.35 + off * 7) * amp * H +
+                Math.sin(u * 5.7 + t * 0.21) * amp * H * 0.32 +
+                u * H * 0.34;
+              i ? c.lineTo(x, y) : c.moveTo(x, y);
+            }
+            c.shadowColor = tone(CH.accent, alpha);
+            c.shadowBlur = blur;
+            c.strokeStyle = tone(CH.strand, alpha);
+            c.lineWidth = width;
+            c.lineCap = "round";
+            c.stroke();
+            c.restore();
+          }
+
+          var dust = [];
+          for (var i = 0; i < 44; i++) {
+            dust.push({
+              x: Math.random(),
+              y: Math.random(),
+              r: Math.random() * 1.3 + 0.3,
+              s: Math.random() * 0.2 + 0.05,
             });
+          }
+
+          function paint() {
+            if (!W || !H) return;
+            c.clearRect(0, 0, W, H);
+            var g = c.createRadialGradient(
+              W * 0.72,
+              H * 0.4,
+              0,
+              W * 0.72,
+              H * 0.4,
+              W * 0.62,
+            );
+            g.addColorStop(0, tone(CH.heroglow, 0.9));
+            g.addColorStop(1, tone(CH.void, 1));
+            c.fillStyle = g;
+            c.fillRect(0, 0, W, H);
+            strand(0.16, 0.055, 0.16, 12, 40);
+            strand(0.1, 0.05, 0.3, 4.2, 26);
+            strand(0, 0.06, 0.8, 5, 26);
+            strand(0, 0.06, 1, 1.9, 12);
+            /* Защита текста. Нить проходит красным по красному прямо
+               под подзаголовком: без этой заслонки замер давал 2,5:1
+               при норме 4,5:1. Заслонка кончается там, где кончается
+               текст, и дальше нить горит в полную силу. */
+            var solid = Math.max(0.28, Math.min(0.66, shieldR - 0.22));
+            var sg = c.createLinearGradient(0, 0, W, 0);
+            sg.addColorStop(0, tone(CH.void, 0.97));
+            sg.addColorStop(solid, tone(CH.void, 0.97));
+            sg.addColorStop(shieldR, tone(CH.void, 0.74));
+            sg.addColorStop(Math.min(1, shieldR + 0.14), tone(CH.void, 0));
+            c.fillStyle = sg;
+            c.fillRect(0, 0, W, H);
+
+            c.fillStyle = tone(CH.spark, 0.5);
+            for (var i = 0; i < dust.length; i++) {
+              var d = dust[i];
+              if (live) {
+                d.y -= (d.s / H) * 2;
+                if (d.y < 0) d.y = 1;
+              }
+              c.beginPath();
+              c.arc(d.x * W, d.y * H, d.r, 0, 6.3);
+              c.fill();
+            }
+          }
+
+          size();
+          window.addEventListener("resize", function () {
+            size();
+            paint();
           });
-          knots.push({ x: mid, y: H });
-          return true;
+          /* Пока не приехал Oranienbaum, колонка меряется системным
+             шрифтом и заслонка встаёт не по тексту. Пересчитываем. */
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function () {
+              size();
+              paint();
+            });
+          }
+
+          if (reduce) {
+            /* Один кадр и тишина: ни одного вызова requestAnimationFrame. */
+            paint();
+            return;
+          }
+
+          /* Видимость считаем сами. Наблюдателя IntersectionObserver
+             здесь заводить нельзя: без сохранённой ссылки его убирает
+             сборщик мусора, и холст молча остаётся пустым. */
+          var lastW = 0;
+
+          function frame() {
+            var r = cv.getBoundingClientRect();
+            if (r.bottom > -60 && r.top < window.innerHeight + 60) {
+              if (Math.abs(r.width - lastW) > 1) {
+                lastW = r.width;
+                size();
+              }
+              t += 0.006;
+              paint();
+            }
+            requestAnimationFrame(frame);
+          }
+          frame();
+        })();
+
+        /* =========================================================
+           ПАУЗА БЕГУЩЕЙ СТРОКИ
+           Требование WCAG 2.2.2: у движения, которое началось само
+           и идёт дольше пяти секунд, должен быть способ его выключить.
+           Наведение таким способом не считается — его нет ни у пальца,
+           ни у клавиатуры.
+           ========================================================= */
+        (function tickerStop() {
+          var ticker = document.getElementById("ticker");
+          var btn = document.getElementById("tickstop");
+          if (!ticker || !btn) return;
+
+          btn.addEventListener("click", function () {
+            var paused = ticker.classList.toggle("paused");
+            btn.setAttribute("aria-pressed", paused ? "true" : "false");
+            btn.setAttribute(
+              "aria-label",
+              paused ? "Запустить бегущую строку" : "Остановить бегущую строку",
+            );
+          });
+        })();
+
+        /* ---------- Номер секции у нити ---------- */
+        var railNum = document.getElementById("railnum");
+        var numbered = [].slice.call(
+          document.querySelectorAll("section[data-num]"),
+        );
+        var lastNum = "";
+
+        /* Ссылки шапки и их секции. Шапка показывает, где человек
+           сейчас: это единственное, что она может сделать полезного
+           на одностраничнике. */
+        var navLinks = [].slice.call(document.querySelectorAll(".nav a"));
+        var navTargets = navLinks.map(function (a) {
+          return document.querySelector(a.getAttribute("href"));
+        });
+        var lastNavIdx = -2;
+
+        function navStep() {
+          var mid = window.innerHeight * 0.45;
+          var idx = -1;
+          for (var i = 0; i < navTargets.length; i++) {
+            var t = navTargets[i];
+            if (t && t.getBoundingClientRect().top <= mid) idx = i;
+          }
+          if (idx === lastNavIdx) return;
+          lastNavIdx = idx;
+          for (var k = 0; k < navLinks.length; k++) {
+            if (k === idx) navLinks[k].setAttribute("aria-current", "true");
+            else navLinks[k].removeAttribute("aria-current");
+          }
+
+          /* На телефоне якоря лежат лентой и в экран влезают не все.
+             Подтягиваем текущий в видимую часть, иначе подсветка
+             срабатывает за краем и человек её не видит. */
+          var nav = document.querySelector(".nav");
+          if (idx >= 0 && nav && nav.scrollWidth > nav.clientWidth + 1) {
+            var el = navLinks[idx];
+            var want = el.offsetLeft - (nav.clientWidth - el.offsetWidth) / 2;
+            nav.scrollLeft = Math.max(0, want);
+          }
         }
 
-        function trace() {
-          ctx.beginPath();
-          ctx.moveTo(knots[0].x, knots[0].y);
-          for (var i = 1; i < knots.length; i++) {
-            var a = knots[i - 1],
-              b = knots[i];
-            var dy = (b.y - a.y) * 0.42;
-            ctx.bezierCurveTo(a.x, a.y + dy, b.x, b.y - dy, b.x, b.y);
+        function railStep() {
+          navStep();
+          if (!numbered.length) return;
+          railNum.style.left = railX + 22 + "px";
+          var mid = window.innerHeight * 0.45;
+          var cur = null;
+          for (var i = 0; i < numbered.length; i++) {
+            if (numbered[i].getBoundingClientRect().top <= mid) cur = numbered[i];
+          }
+          if (!cur) {
+            railNum.className = "rail-num";
+            lastNum = "";
+            return;
+          }
+          var key = cur.getAttribute("data-num");
+          if (key !== lastNum) {
+            lastNum = key;
+            railNum.innerHTML =
+              "<b>" + key + "</b><span>" + cur.getAttribute("data-name") + "</span>";
+          }
+          railNum.className = "rail-num on";
+        }
+
+        /* ---------- Счётчики в полосе доверия ---------- */
+        var counters = [].slice.call(document.querySelectorAll(".strip b"));
+        var countersDone = false;
+
+        function countersStep() {
+          if (countersDone || !counters.length) return;
+          if (counters[0].getBoundingClientRect().top > window.innerHeight * 0.9)
+            return;
+          countersDone = true;
+          if (reduce) return;
+          counters.forEach(function (el) {
+            var goal = parseInt(el.textContent, 10);
+            if (isNaN(goal)) return;
+            var t0 = performance.now();
+            el.textContent = "0";
+            (function tick(now) {
+              var k = Math.min(1, (now - t0) / 1100);
+              el.textContent = Math.round(goal * (1 - Math.pow(1 - k, 3)));
+              if (k < 1) requestAnimationFrame(tick);
+              else el.textContent = goal;
+            })(performance.now());
+          });
+        }
+
+        /* =========================================================
+           НИТЬ
+           Верёвка на физике верле. Точки идут сверху вниз по левому
+           полю. Быстрая прокрутка даёт провисание и раскачку,
+           в покое нить натягивается обратно в прямую.
+           ========================================================= */
+        var cv = document.getElementById("thread");
+        var ctx = cv.getContext("2d");
+        var N = 64;
+        var pts = [];
+        var W = 0,
+          H = 0,
+          dpr = 1;
+        var railX = 0;
+        /* Бегунок: одна точка, которая едет по нити сверху вниз ровно
+           настолько, насколько прочитана страница. Догоняет цель, а не
+           прыгает на неё, поэтому идёт плавно даже от колеса мыши. */
+        var bead = -1,
+          beadT = 0;
+        var slack = 0,
+          slackTarget = 0;
+        var wind = 0;
+        var SWING = 24; /* предел бокового ухода нити, пересчитывается под ширину */
+        var lastY = window.scrollY;
+        var vel = 0;
+        var idle = 0;
+        var running = false;
+        var lastT = 0;
+
+        function rail() {
+          return window.innerWidth >= 900
+            ? Math.max(34, (window.innerWidth - 1140) / 2 + 40)
+            : 13;
+        }
+
+        function build() {
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          W = window.innerWidth;
+          H = window.innerHeight;
+          cv.width = Math.round(W * dpr);
+          cv.height = Math.round(H * dpr);
+          cv.style.width = W + "px";
+          cv.style.height = H + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          railX = rail();
+          /* На узком экране поле всего 30px, и размах в 24 накрыл бы буквы. */
+          SWING = window.innerWidth >= 900 ? 24 : 9;
+
+          pts = [];
+          for (var i = 0; i < N; i++) {
+            var y = -20 + ((H + 40) * i) / (N - 1);
+            pts.push({ x: railX, y: y, px: railX, py: y });
+          }
+        }
+
+        function step(dt) {
+          var segBase = (H + 40) / (N - 1);
+          var seg = segBase * (1 + slack);
+
+          for (var i = 1; i < N - 1; i++) {
+            var p = pts[i];
+            var vx = (p.x - p.px) * 0.93;
+            var vy = (p.y - p.py) * 0.93;
+            p.px = p.x;
+            p.py = p.y;
+
+            /* Профиль качания: сильнее всего в середине верёвки. */
+            var t = i / (N - 1);
+            var profile = Math.sin(Math.PI * t);
+            p.x += vx + wind * profile * dt + (railX - p.x) * 0.022 * dt;
+            p.y += vy + 0.32 * dt;
+
+            /* Жёсткий предел размаха: без него при резкой прокрутке нить
+               улетала на текст и читать было невозможно. */
+            if (p.x > railX + SWING) p.x = railX + SWING;
+            else if (p.x < railX - SWING) p.x = railX - SWING;
+          }
+
+          pts[0].x = railX;
+          pts[0].y = -20;
+          pts[N - 1].x = railX;
+          pts[N - 1].y = H + 20;
+
+          for (var k = 0; k < 3; k++) {
+            for (var j = 0; j < N - 1; j++) {
+              var a = pts[j],
+                b = pts[j + 1];
+              var dx = b.x - a.x,
+                dy = b.y - a.y;
+              var d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+              var diff = (d - seg) / d / 2;
+              var ox = dx * diff,
+                oy = dy * diff;
+              if (j !== 0) {
+                a.x += ox;
+                a.y += oy;
+              }
+              if (j + 1 !== N - 1) {
+                b.x -= ox;
+                b.y -= oy;
+              }
+            }
           }
         }
 
         function draw() {
-          if (!W || !H) return;
-          var thread = css("--thread");
-          var dim = css("--thread-dim");
-          var ink = css("--ink");
-
           ctx.clearRect(0, 0, W, H);
 
-          ctx.lineWidth = 1.5;
-          ctx.lineCap = "round";
-          ctx.strokeStyle = dim;
-          trace();
-          ctx.stroke();
+          var grad = ctx.createLinearGradient(0, 0, 0, H);
+          grad.addColorStop(0, tone(CH.accent, 0.85));
+          grad.addColorStop(0.55, tone(CH.accent, 0.5));
+          grad.addColorStop(1, tone(CH.accent, 0.18));
 
-          var pageTop = page.getBoundingClientRect().top + window.scrollY;
-          var reach = reduce
-            ? H
-            : window.scrollY + window.innerHeight * 0.72 - pageTop;
-          reach = Math.max(0, Math.min(H, reach));
-
-          ctx.save();
           ctx.beginPath();
-          ctx.rect(0, 0, W, reach);
-          ctx.clip();
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = thread;
-          trace();
+          ctx.moveTo(pts[0].x, pts[0].y);
+          for (var i = 1; i < N - 1; i++) {
+            var mx = (pts[i].x + pts[i + 1].x) / 2;
+            var my = (pts[i].y + pts[i + 1].y) / 2;
+            ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
+          }
+          ctx.lineTo(pts[N - 1].x, pts[N - 1].y);
+
+          /* Свечение отдельным проходом: дешевле, чем shadowBlur.
+             На первом экране нить светится сквозь дым заметно сильнее. */
+          var heroK = Math.max(0, 1 - window.scrollY / (H * 0.9));
+          ctx.strokeStyle = tone(CH.accent, (0.16 + heroK * 0.2).toFixed(3));
+          ctx.lineWidth = 7 + heroK * 9;
           ctx.stroke();
-          ctx.restore();
 
-          knots.forEach(function (k) {
-            if (!k.mark) return;
-            var live = k.y <= reach;
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+
+          /* Бегунок — единственная точка на нити. Узлы напротив
+             заголовков убраны: вместе с бегунком нить превращалась
+             в пунктир, и он в нём терялся. Координата x берётся с самой
+             нити, так что точка едет по её изгибу, а не по прямой. */
+          if (bead >= 0) {
+            var bi = Math.round((bead / H) * (N - 1));
+            bi = Math.max(0, Math.min(N - 1, bi));
+            var bp = pts[bi];
+
+            var bg2 = ctx.createRadialGradient(bp.x, bead, 0, bp.x, bead, 26);
+            bg2.addColorStop(0, tone(CH.accent, 0.34));
+            bg2.addColorStop(1, tone(CH.accent, 0));
             ctx.beginPath();
-            ctx.arc(k.x, k.y, 4.5, 0, Math.PI * 2);
-            ctx.fillStyle = ink;
+            ctx.arc(bp.x, bead, 26, 0, 6.2832);
+            ctx.fillStyle = bg2;
             ctx.fill();
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = live ? thread : dim;
-            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(bp.x, bead, 6.5, 0, 6.2832);
+            ctx.fillStyle = tone(CH.accent, 0.5);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(bp.x, bead, 3.4, 0, 6.2832);
+            ctx.fillStyle = COLOR_SPARK;
+            ctx.fill();
+          }
+        }
+
+        function frame(now) {
+          var dt = lastT ? Math.min((now - lastT) / 16.667, 2.6) : 1;
+          lastT = now;
+
+          var y = window.scrollY;
+          var d = y - lastY;
+          lastY = y;
+          vel = vel * 0.86 + d * 0.14;
+
+          /* Провисание растёт от скорости чтения и уходит к нулю
+             ближе к концу страницы: дослушали, нить натянулась. */
+          var docH = Math.max(
+            1,
+            document.documentElement.scrollHeight - window.innerHeight,
+          );
+          var progress = Math.min(1, Math.max(0, y / docH));
+
+          /* Цель бегунка: от верхней трети экрана до нижней. Края
+             оставлены пустыми, чтобы точка не липла к шапке и к низу. */
+          var beadPad = window.innerHeight * 0.16;
+          beadT = beadPad + progress * (window.innerHeight - beadPad * 2);
+          if (bead < 0) bead = beadT;
+          bead += (beadT - bead) * 0.085 * dt;
+          var speed = Math.min(Math.abs(vel) / 44, 1);
+          slackTarget = speed * 0.03 * (1 - progress * 0.85);
+          slack += (slackTarget - slack) * 0.07 * dt;
+          var windWant = -vel * 0.03;
+          if (windWant > 3.2) windWant = 3.2;
+          else if (windWant < -3.2) windWant = -3.2;
+          wind += (windWant - wind) * 0.12 * dt;
+
+          step(dt);
+          draw();
+          headerCheck();
+          torchStep(dt);
+          parallaxStep();
+          smokeStep();
+
+          /* Цикл засыпает, когда всё успокоилось. */
+          if (
+            Math.abs(vel) < 0.05 &&
+            Math.abs(wind) < 0.05 &&
+            slack < 0.0015 &&
+            Math.abs(torchX - torchTX) < 0.5 &&
+            Math.abs(torchY - torchTY) < 0.5 &&
+            Math.abs(bead - beadT) < 0.4
+          ) {
+            idle += dt;
+          } else {
+            idle = 0;
+          }
+
+          if (idle > 70) {
+            running = false;
+            lastT = 0;
+            return;
+          }
+          requestAnimationFrame(frame);
+        }
+
+        function wake() {
+          if (reduce) return;
+          idle = 0;
+          if (!running) {
+            running = true;
+            lastT = 0;
+            requestAnimationFrame(frame);
+          }
+        }
+
+        function drawStill() {
+          /* Покой: нить рисуется один раз прямой и натянутой. */
+          ctx.clearRect(0, 0, W, H);
+          var grad = ctx.createLinearGradient(0, 0, 0, H);
+          grad.addColorStop(0, tone(CH.accent, 0.8));
+          grad.addColorStop(1, tone(CH.accent, 0.2));
+          ctx.beginPath();
+          ctx.moveTo(railX, 0);
+          ctx.lineTo(railX, H);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+        }
+
+        function boot() {
+          build();
+          railStep();
+          countersStep();
+          if (reduce) {
+            showAll();
+            drawStill();
+          } else {
+            /* Первый обход через кадр: иначе браузер может не проиграть
+               переход, добавив класс в том же кадре, что и первую отрисовку.
+               Дублируем таймером, потому что в фоновой вкладке кадровый
+               цикл остановлен и страница осталась бы пустой. */
+            requestAnimationFrame(sweep);
+            setTimeout(sweep, 400);
+            wake();
+          }
+        }
+
+        boot();
+
+        var rt;
+        window.addEventListener("resize", function () {
+          clearTimeout(rt);
+          rt = setTimeout(function () {
+            build();
+            railStep();
+            if (reduce) drawStill();
+            else wake();
+          }, 160);
+        });
+
+        window.addEventListener(
+          "scroll",
+          function () {
+            sweep();
+            headerCheck();
+            railStep();
+            countersStep();
+            wake();
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", queueSweep);
+
+        /* Вкладку открыли из фона: наверстать всё, что пропустил цикл. */
+        document.addEventListener("visibilitychange", function () {
+          if (!document.hidden) {
+            sweep();
+            railStep();
+            countersStep();
+            wake();
+          }
+        });
+
+        /* Переключение режима покоя на живой странице. */
+        var onModeChange = function () {
+          reduce = mqReduce.matches;
+          if (reduce) {
+            running = false;
+            showAll();
+            build();
+            drawStill();
+          } else {
+            wake();
+          }
+        };
+
+        if (mqReduce.addEventListener) {
+          mqReduce.addEventListener("change", onModeChange);
+        } else if (mqReduce.addListener) {
+          mqReduce.addListener(onModeChange);
+        }
+
+        /* =========================================================
+           ДУГА: точку можно тащить, опоры переключаются кнопками,
+           при прокрутке кривая рисует себя.
+           ========================================================= */
+        var beats = [
+          [
+            "01",
+            "Экспозиция",
+            "Кто герой и что для него нормально. Коротко, иначе слушатель уйдёт до завязки.",
+          ],
+          [
+            "02",
+            "Завязка",
+            "Событие, после которого жить по-старому нельзя. Здесь появляется ставка.",
+          ],
+          [
+            "03",
+            "Развитие",
+            "Попытки, ошибки, сопротивление. С каждым шагом цена решения растёт.",
+          ],
+          [
+            "04",
+            "Кульминация",
+            "Момент, где решается всё. Одна сцена, одна фраза, один выбор.",
+          ],
+          [
+            "05",
+            "Развязка",
+            "Новая норма и мысль, ради которой всё затевалось. Её и запомнят.",
+          ],
+        ];
+
+        var curve = document.getElementById("curve");
+        var ribDim = document.getElementById("ribdim");
+        var ribLit = document.getElementById("riblit");
+        var clipRect = document.getElementById("thrrect");
+        var head = document.getElementById("head");
+        var stage = document.getElementById("arcstage");
+        var svg = document.getElementById("arcsvg");
+        var dots = document.querySelectorAll(".arc .dot");
+        var nums = document.querySelectorAll(".arc .num");
+        var box = document.getElementById("beatbox");
+        var bn = document.getElementById("bn");
+        var bt = document.getElementById("bt");
+        var bd = document.getElementById("bd");
+        var navBtns = document.querySelectorAll("#beatnav button");
+
+        var X0 = 60,
+          X1 = 770,
+          YB = 222,
+          YT = 34;
+        var stopsX = [];
+        for (var d0 = 0; d0 < dots.length; d0++) {
+          stopsX.push(+dots[d0].getAttribute("cx"));
+        }
+
+        var L = curve.getTotalLength();
+
+        /* Точка курсора на кривой ищется по ГОРИЗОНТАЛИ, а не по длине.
+           Раньше было по длине, и точка уезжала от курсора: на крутом
+           участке в одном пикселе ширины укладывается заметно больше
+           длины, чем на пологом. Ошибка доходила до 42 единиц чертежа.
+           Двоичный поиск по длине даёт ту самую точку, у которой x
+           совпадает с курсором. */
+        function pointAtX(x) {
+          var lo = 0,
+            hi = L,
+            p;
+          for (var k = 0; k < 24; k++) {
+            var mid = (lo + hi) / 2;
+            p = curve.getPointAtLength(mid);
+            if (p.x < x) lo = mid;
+            else hi = mid;
+          }
+          p = curve.getPointAtLength((lo + hi) / 2);
+          return p;
+        }
+
+        /* Лента переменной толщины: идём по кривой, в каждой точке
+           берём нормаль и отступаем на половину толщины в обе стороны.
+           Толщина растёт с накалом — в кульминации нить толще втрое. */
+        (function buildRibbon() {
+          var up = [],
+            dn = [],
+            S = 96;
+          for (var i = 0; i <= S; i++) {
+            var l = (L * i) / S;
+            var p = curve.getPointAtLength(l);
+            var p2 = curve.getPointAtLength(Math.min(L, l + 1));
+            var dx = p2.x - p.x,
+              dy = p2.y - p.y;
+            var m = Math.sqrt(dx * dx + dy * dy) || 1;
+            var nx = -dy / m,
+              ny = dx / m;
+            var tens = (YB - p.y) / (YB - YT);
+            var w = (1.2 + tens * 5.4) / 2;
+            up.push(
+              (p.x + nx * w).toFixed(1) + " " + (p.y + ny * w).toFixed(1),
+            );
+            dn.unshift(
+              (p.x - nx * w).toFixed(1) + " " + (p.y - ny * w).toFixed(1),
+            );
+          }
+          var dAttr = "M " + up.join(" L ") + " L " + dn.join(" L ") + " Z";
+          ribDim.setAttribute("d", dAttr);
+          ribLit.setAttribute("d", dAttr);
+          /* Направляющая была нужна только как запасной вид без скрипта. */
+          curve.setAttribute("stroke", "none");
+        })();
+
+        var active = -1;
+        var headX = X0;
+
+        function moveHead(x) {
+          headX = Math.max(X0, Math.min(X1, x));
+          var p = pointAtX(headX);
+          head.setAttribute("cx", p.x);
+          head.setAttribute("cy", p.y);
+          clipRect.setAttribute("width", Math.max(0, p.x + 3));
+        }
+
+        function beatAtX(x) {
+          var b = 0;
+          for (var i = 0; i < stopsX.length; i++) {
+            if (x >= stopsX[i] - 26) b = i;
+          }
+          return b;
+        }
+
+        function setBeat(i, moveToo) {
+          i = Math.max(0, Math.min(beats.length - 1, i));
+
+          if (i !== active) {
+            active = i;
+            bn.textContent = beats[i][0];
+            bt.textContent = beats[i][1];
+            bd.textContent = beats[i][2];
+
+            if (!reduce) {
+              box.classList.remove("swap");
+              void box.offsetWidth;
+              box.classList.add("swap");
+            }
+
+            for (var d = 0; d < dots.length; d++) {
+              dots[d].classList.toggle("lit", d <= i);
+              nums[d].style.fill = d <= i ? COLOR_ACCENT : "";
+            }
+
+            for (var b = 0; b < navBtns.length; b++) {
+              navBtns[b].setAttribute(
+                "aria-current",
+                b === i ? "true" : "false",
+              );
+            }
+          }
+
+          if (moveToo) moveHead(stopsX[i]);
+        }
+
+        moveHead(X0);
+        setBeat(0, true);
+        if (reduce) {
+          clipRect.setAttribute("width", 820);
+          setBeat(beats.length - 1, false);
+        }
+
+        for (var b2 = 0; b2 < navBtns.length; b2++) {
+          navBtns[b2].addEventListener("click", function () {
+            arcTouched = true;
+            setBeat(+this.getAttribute("data-i"), true);
           });
         }
 
-        var queued = false;
-        function onScroll() {
-          stuck();
-          if (queued) return;
-          queued = true;
-          requestAnimationFrame(function () {
-            queued = false;
-            draw();
+        /* Ведение курсором: ничего не надо зажимать. Палец работает так же,
+           но по касанию, чтобы не отнимать вертикальную прокрутку. */
+        function xFromEvent(e) {
+          var r = svg.getBoundingClientRect();
+          var cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+          return Math.max(X0, Math.min(X1, (cx / r.width) * 820));
+        }
+
+        function follow(e) {
+          arcTouched = true;
+          var x = xFromEvent(e);
+          moveHead(x);
+          setBeat(beatAtX(x), false);
+        }
+
+        stage.addEventListener("pointermove", follow);
+        stage.addEventListener(
+          "touchmove",
+          function (e) {
+            follow(e);
+            if (e.cancelable) e.preventDefault();
+          },
+          { passive: false },
+        );
+        stage.addEventListener(
+          "touchstart",
+          function (e) {
+            follow(e);
+          },
+          { passive: true },
+        );
+
+        /* Нить натягивается по мере прокрутки, пока её не тронули руками. */
+        var arcSection = document.getElementById("arc");
+        var arcTouched = false;
+
+        function arcScroll() {
+          if (reduce || arcTouched) return;
+          var r = arcSection.getBoundingClientRect();
+          var seen = (window.innerHeight - r.top) / (window.innerHeight * 0.85);
+          seen = Math.max(0, Math.min(1, seen));
+          if (seen <= 0.2) {
+            moveHead(X0);
+            setBeat(0, false);
+            return;
+          }
+          var k = (seen - 0.2) / 0.8;
+          moveHead(X0 + (X1 - X0) * Math.min(1, k));
+          setBeat(beatAtX(headX), false);
+        }
+
+        window.addEventListener("scroll", arcScroll, { passive: true });
+        arcScroll();
+
+        /* Плавная прокрутка по якорям без прыжка фокуса. */
+        var links = document.querySelectorAll('a[href^="#"]');
+        for (var l = 0; l < links.length; l++) {
+          links[l].addEventListener("click", function (e) {
+            var id = this.getAttribute("href");
+            if (id.length < 2) return;
+
+            /* #top висит на закреплённой шапке, прокручивать её некуда:
+               для неё просто уезжаем в самое начало страницы. */
+            if (id === "#top") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+              if (history.replaceState) history.replaceState(null, "", " ");
+              return;
+            }
+
+            var target = document.querySelector(id);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({
+              behavior: reduce ? "auto" : "smooth",
+              block: "start",
+            });
+            /* Клавиатуре нужен перенос фокуса, иначе ссылка «К содержанию»
+               прокручивает страницу, а Tab продолжает с прежнего места. */
+            if (target.hasAttribute("tabindex") || /^(A|BUTTON|INPUT)$/.test(target.tagName)) {
+              target.focus({ preventScroll: true });
+            }
+            if (history.replaceState) history.replaceState(null, "", id);
           });
         }
-
-        function rebuild() {
-          if (layout()) draw();
-        }
-
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", rebuild);
-        if (window.ResizeObserver) new ResizeObserver(rebuild).observe(page);
-        rebuild();
-        window.addEventListener("load", rebuild);
-
-        /* --- Демо-форма --- */
-        var form = document.getElementById("form");
       })();
     </script>
   </body>
