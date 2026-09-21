@@ -4082,7 +4082,13 @@
         function build() {
           dpr = Math.min(window.devicePixelRatio || 1, 2);
           W = window.innerWidth;
-          H = window.innerHeight;
+          /* Только что созданная вкладка отдаёт нулевую высоту: браузер
+             ещё не разложил страницу. Ноль уходит делителем в draw(),
+             и индекс точки на нити становится NaN. Берём запасную
+             высоту; настоящая придёт с первым resize, и нить
+             пересоберётся сама. */
+          H =
+            window.innerHeight || document.documentElement.clientHeight || 800;
           cv.width = Math.round(W * dpr);
           cv.height = Math.round(H * dpr);
           cv.style.width = W + "px";
@@ -4183,6 +4189,10 @@
              нити, так что точка едет по её изгибу, а не по прямой. */
           if (bead >= 0) {
             var bi = Math.round((bead / H) * (N - 1));
+            /* Зажим ниже сам по себе не защищает: Math.max и Math.min
+               пропускают NaN насквозь, и pts[NaN] — это undefined.
+               Отсекаем нечисло до зажима. */
+            if (!isFinite(bi)) bi = 0;
             bi = Math.max(0, Math.min(N - 1, bi));
             var bp = pts[bi];
 
