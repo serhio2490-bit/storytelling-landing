@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <!-- Это макет, а не страница сайта: в поиске ему делать нечего. -->
+    <meta name="robots" content="noindex" />
+    <title>Исходник превью og.jpg · Красная нить</title>
+
+    <!-- ИСХОДНИК КАРТИНКИ-ПРЕВЬЮ ДЛЯ МЕССЕНДЖЕРОВ.
+         Это не страница сайта, а макет ровно 1200×630, с которого
+         снимается og.jpg. Держим его в репозитории, чтобы превью можно
+         было перерисовать одной командой, а не собирать заново.
+
+         Как снять (Chrome, не Edge — у Edge --screenshot молчит):
+         chrome --headless --disable-gpu --hide-scrollbars
+           --user-data-dir=<временная папка> --window-size=1200,630
+           --virtual-time-budget=4000 --screenshot=og.png file:///.../_og/og.html
+         magick og.png -quality 84 og.jpg
+
+         ПРАВИЛА ТЕ ЖЕ, ЧТО НА СТРАНИЦЕ: ни одного цветового литерала
+         вне :root, шрифты свои из fonts/, нить рисуется кодом. -->
+
+    <style>
+      /* Шрифты те же файлы, что у страницы. font-display: block, а не
+         swap: снимок делается один раз, и подменённая гарнитура в кадре
+         уже не исправится. Пусть лучше браузер подождёт шрифт. */
+      @font-face {
+        font-family: "Oranienbaum";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("../fonts/oranienbaum-400-cyr.woff2") format("woff2");
+        unicode-range: U+0020, U+00A0, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+      @font-face {
+        font-family: "Oranienbaum";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("../fonts/oranienbaum-400-lat.woff2") format("woff2");
+        unicode-range:
+          U+0020-007E, U+00A0, U+00B7, U+2013-2014, U+2018-2019, U+201C-201E,
+          U+2022, U+2026;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 500;
+        font-display: block;
+        src: url("../fonts/jbmono-500-cyr.woff2") format("woff2");
+        unicode-range:
+          U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 500;
+        font-display: block;
+        src: url("../fonts/jbmono-500-lat.woff2") format("woff2");
+        unicode-range:
+          U+0020-007E, U+00A0, U+00B7, U+2013-2014, U+2018-2019, U+201C-201E,
+          U+2022, U+2026;
+      }
+
+      /* ТОКЕНЫ. Значения скопированы из :root страницы один в один.
+         Меняется палитра сайта — меняется и этот блок, и превью
+         перерисовывается. Ниже по файлу литералов цвета нет. */
+      :root {
+        --canvas: #0b0e16;
+        --text: #ede9e2;
+        --muted: #a2aabc;
+        --accent: #e23a4e;
+        --accent-text: #ee5668;
+
+        --accent-rgb: 226 58 78;
+        --canvas-rgb: 11 14 22;
+        --text-rgb: 237 233 226;
+        --spark-rgb: 255 225 215;
+        --strand-rgb: 232 74 92;
+        --heroglow-rgb: 52 26 34;
+        --void-rgb: 9 11 18;
+
+        --display: Oranienbaum, Georgia, serif;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+
+        /* Шаг сетки страницы — 2 пикселя, отступы кратны ему. */
+        --pad-x: 84px;
+        --pad-y: 72px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+
+      body {
+        background: var(--canvas);
+        color: var(--text);
+        position: relative;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Нить и тёплое пятно за текстом рисует скрипт. */
+      #cv {
+        position: absolute;
+        inset: 0;
+        width: 1200px;
+        height: 630px;
+      }
+
+      /* Зерно: заливка перестаёт быть пластиковой. Та же мера, что
+         на странице, только статичная. */
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.055;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+
+      .sheet {
+        position: absolute;
+        inset: 0;
+        padding: var(--pad-y) var(--pad-x);
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Знак. Черта короткая, как у шапки сайта в покое (scaleX .58
+         от 38 пикселей — это 22). */
+      .mark {
+        font-family: var(--display);
+        font-size: 22px;
+        letter-spacing: 0.01em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+      }
+
+      .mark i {
+        width: 22px;
+        height: 1px;
+        background: var(--accent);
+        display: block;
+      }
+
+      .body {
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .kicker {
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 26px;
+      }
+
+      .kicker::before {
+        content: "";
+        width: 26px;
+        height: 1px;
+        background: var(--accent);
+        flex: none;
+      }
+
+      h1 {
+        font-family: var(--display);
+        font-size: 76px;
+        line-height: 0.98;
+        letter-spacing: -0.015em;
+        font-weight: 400;
+        max-width: 730px;
+      }
+
+      /* Тот же приём, что в герое: вторая половина фразы — акцентом.
+         Красный для крупного текста берём основной (--accent):
+         на холсте он даёт 4,45:1, а крупному кеглю хватает и 3:1. */
+      h1 span {
+        color: var(--accent);
+      }
+
+      .facts {
+        display: flex;
+        gap: 34px;
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+
+      .facts span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .facts span::before {
+        content: "";
+        width: 4px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 50%;
+        flex: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="cv" width="1200" height="630"></canvas>
+
+    <svg class="grain" width="1200" height="630" aria-hidden="true">
+      <filter id="n">
+        <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="3" />
+      </filter>
+      <rect width="1200" height="630" filter="url(#n)" />
+    </svg>
+
+    <div class="sheet">
+      <p class="mark"><i></i>Красная нить</p>
+
+      <div class="body">
+        <p class="kicker">Мастерская сторителлинга · Поток №14</p>
+        <h1>Факты забывают. Помнят, <span>чем всё кончилось.</span></h1>
+      </div>
+
+      <p class="facts">
+        <span>10 занятий по 2 часа</span>
+        <span>Группа 12 человек</span>
+      </p>
+    </div>
+
+    <script>
+      /* НИТЬ. Тот же четырёхпроходный приём, что на первом экране:
+         широкий тусклый даёт ореол, средний — тело, узкий яркий —
+         сердцевину. Кадр один, поэтому время стоит на нуле.
+         Цвета читаем из тех же токенов через getComputedStyle —
+         единый источник правды не разрывается. */
+      (function () {
+        var cv = document.getElementById("cv");
+        var c = cv.getContext("2d");
+        var W = 1200,
+          H = 630;
+        var cs = getComputedStyle(document.documentElement);
+
+        function ch(name) {
+          return cs.getPropertyValue("--" + name + "-rgb").trim();
+        }
+        function tone(channels, a) {
+          return "rgb(" + channels + " / " + a + ")";
+        }
+
+        var C = {
+          accent: ch("accent"),
+          strand: ch("strand"),
+          spark: ch("spark"),
+          glow: ch("heroglow"),
+          voidc: ch("void"),
+        };
+
+        /* Докуда тянется колонка текста: меряем по настоящим элементам,
+           а не процентами от ширины. Дальше этой границы нить горит
+           в полную силу, ближе — притушена, иначе красное по красному
+           съедает контраст строки. */
+        var right = 0;
+        [".mark", ".kicker", "h1", ".facts"].forEach(function (s) {
+          var el = document.querySelector(s);
+          if (el) right = Math.max(right, el.getBoundingClientRect().right);
+        });
+        var shieldR = right ? Math.min(0.99, right / W + 0.015) : 0.62;
+
+        /* Кадр вдвое ниже первого экрана, поэтому та же формула даёт
+           почти прямую линию: размах пропорционален высоте, а высоты
+           мало. Размах считаем от ШИРИНЫ — тогда изгиб в кадре такой
+           же, как на экране. */
+        /* Фаза сдвинута на -0,7: без сдвига синус в правой трети кадра
+           идёт вниз и гасит уклон, нить ложится поперёк картинки ровной
+           полосой и разрезает её пополам. Со сдвигом видимый кусок нити
+           уходит вправо и вниз — так же, как на первом экране. */
+        function curveY(u, off, amp) {
+          return (
+            H * (0.12 + off) +
+            Math.sin(u * 2.4 - 0.7 + off * 7) * amp * W +
+            Math.sin(u * 5.7) * amp * W * 0.3 +
+            u * H * 0.42
+          );
+        }
+
+        function strand(off, amp, alpha, width, blur) {
+          c.save();
+          c.beginPath();
+          for (var i = 0; i <= 160; i++) {
+            var u = i / 160;
+            var x = u * W;
+            var y = curveY(u, off, amp);
+            i ? c.lineTo(x, y) : c.moveTo(x, y);
+          }
+          c.shadowColor = tone(C.accent, alpha);
+          c.shadowBlur = blur;
+          c.strokeStyle = tone(C.strand, alpha);
+          c.lineWidth = width;
+          c.lineCap = "round";
+          c.stroke();
+          c.restore();
+        }
+
+        /* Тёплое пятно позади нити. */
+        var g = c.createRadialGradient(
+          W * 0.76,
+          H * 0.52,
+          0,
+          W * 0.76,
+          H * 0.52,
+          W * 0.52,
+        );
+        g.addColorStop(0, tone(C.glow, 1));
+        g.addColorStop(1, tone(C.voidc, 1));
+        c.fillStyle = g;
+        c.fillRect(0, 0, W, H);
+
+        /* Разбег проходов на первом экране задан долями ВЫСОТЫ, а она
+           там вдвое больше. В этом кадре те же доли разводят проходы
+           на отдельные полосы — три не связанных друг с другом луча
+           вместо одной нити. Сводим их ближе: ореол должен обнимать
+           сердцевину, а не лежать рядом. */
+        strand(0.07, 0.055, 0.16, 12, 40);
+        strand(0.04, 0.056, 0.3, 4.2, 26);
+        strand(0, 0.058, 0.8, 5, 26);
+        strand(0, 0.058, 1, 1.9, 12);
+
+        /* Заслонка под колонкой текста. */
+        var solid = Math.max(0.28, Math.min(0.66, shieldR - 0.22));
+        var sg = c.createLinearGradient(0, 0, W, 0);
+        sg.addColorStop(0, tone(C.voidc, 0.97));
+        sg.addColorStop(solid, tone(C.voidc, 0.97));
+        sg.addColorStop(shieldR, tone(C.voidc, 0.74));
+        sg.addColorStop(Math.min(1, shieldR + 0.14), tone(C.voidc, 0));
+        c.fillStyle = sg;
+        c.fillRect(0, 0, W, H);
+
+        /* Пылинки. Раскладка задана формулой, а не случайными числами:
+           превью должно пересниматься одинаковым. */
+        c.fillStyle = tone(C.spark, 0.5);
+        for (var k = 0; k < 44; k++) {
+          var px = ((k * 97) % 100) / 100;
+          var py = ((k * 53) % 100) / 100;
+          var pr = 0.3 + (((k * 31) % 13) / 13) * 1.3;
+          c.globalAlpha = px > shieldR ? 0.5 : 0.14;
+          c.beginPath();
+          c.arc(px * W, py * H, pr, 0, 6.2832);
+          c.fill();
+        }
+        c.globalAlpha = 1;
+
+        /* Бегунок — та же светлая точка, что ездит по нити на сайте.
+           Ставим её в правой трети: у кадра появляется точка, куда
+           смотреть, и превью перестаёт быть просто тёмной плашкой.
+           Сидит ровно на сердцевине, потому что координату берём
+           из той же функции кривой. */
+        var bu = 0.84;
+        var bx = bu * W;
+        var by = curveY(bu, 0, 0.058);
+        c.save();
+        c.shadowColor = tone(C.accent, 1);
+        c.shadowBlur = 26;
+        c.fillStyle = tone(C.spark, 1);
+        c.beginPath();
+        c.arc(bx, by, 5, 0, 6.2832);
+        c.fill();
+        c.shadowBlur = 0;
+        c.fillStyle = tone(C.spark, 0.16);
+        c.beginPath();
+        c.arc(bx, by, 15, 0, 6.2832);
+        c.fill();
+        c.restore();
+      })();
+    </script>
+  </body>
+</html>

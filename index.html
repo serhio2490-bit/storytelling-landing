@@ -40,7 +40,16 @@
 
     <!-- ШАГ ПРИ ВЫКЛАДКЕ: og:url и og:image обязаны быть абсолютными.
          При смене домена или имени папки поправить оба адреса, иначе превью
-         отвалится молча. Картинку og.jpg надо перерисовать под тёмный макет. -->
+         отвалится молча.
+
+         Картинка перерисована под тёмный макет 21.09.2026. Исходник
+         макета — `_og/og.html`, он же рецепт пересъёмки.
+
+         `?v=2` в адресе картинки — не украшение. Мессенджеры кэшируют
+         превью по адресу и держат его неделями: без смены адреса
+         Telegram и ВКонтакте показывали бы старую светлую картинку
+         ещё долго после выкладки. Перерисовали снова — поднять номер. -->
+
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="Красная нить" />
@@ -55,7 +64,7 @@
     />
     <meta
       property="og:image"
-      content="https://serhio2490-bit.github.io/storytelling-landing/og.jpg"
+      content="https://serhio2490-bit.github.io/storytelling-landing/og.jpg?v=2"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -99,7 +108,8 @@
         font-weight: 400;
         font-display: swap;
         src: url("fonts/golos-400-cyr.woff2") format("woff2");
-        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+        unicode-range:
+          U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
       }
 
       @font-face {
@@ -108,7 +118,10 @@
         font-weight: 400;
         font-display: swap;
         src: url("fonts/golos-400-lat.woff2") format("woff2");
-        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+        unicode-range:
+          U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7,
+          U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022,
+          U+2026, U+2039-203A, U+2191, U+2193;
       }
 
       @font-face {
@@ -126,7 +139,8 @@
         font-weight: 500;
         font-display: swap;
         src: url("fonts/golos-500-cyr.woff2") format("woff2");
-        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+        unicode-range:
+          U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
       }
 
       @font-face {
@@ -135,7 +149,10 @@
         font-weight: 500;
         font-display: swap;
         src: url("fonts/golos-500-lat.woff2") format("woff2");
-        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+        unicode-range:
+          U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7,
+          U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022,
+          U+2026, U+2039-203A, U+2191, U+2193;
       }
 
       @font-face {
@@ -153,7 +170,8 @@
         font-weight: 400;
         font-display: swap;
         src: url("fonts/jbmono-400-cyr.woff2") format("woff2");
-        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+        unicode-range:
+          U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
       }
 
       @font-face {
@@ -162,7 +180,10 @@
         font-weight: 400;
         font-display: swap;
         src: url("fonts/jbmono-400-lat.woff2") format("woff2");
-        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+        unicode-range:
+          U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7,
+          U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022,
+          U+2026, U+2039-203A, U+2191, U+2193;
       }
 
       @font-face {
@@ -180,7 +201,8 @@
         font-weight: 500;
         font-display: swap;
         src: url("fonts/jbmono-500-cyr.woff2") format("woff2");
-        unicode-range: U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
+        unicode-range:
+          U+0020, U+0041, U+00A0, U+0301, U+0401, U+0410-044F, U+0451, U+2116;
       }
 
       @font-face {
@@ -189,7 +211,10 @@
         font-weight: 500;
         font-display: swap;
         src: url("fonts/jbmono-500-lat.woff2") format("woff2");
-        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2191, U+2193;
+        unicode-range:
+          U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7,
+          U+00BB, U+00D7, U+0301, U+2013-2014, U+2018-2019, U+201C-201E, U+2022,
+          U+2026, U+2039-203A, U+2191, U+2193;
       }
 
       @font-face {
@@ -216,7 +241,10 @@
         font-weight: 400;
         font-display: swap;
         src: url("fonts/oranienbaum-400-lat.woff2") format("woff2");
-        unicode-range: U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7, U+00BB, U+00D7, U+0412-0414, U+2013-2014, U+2018-2019, U+201C-201E, U+2022, U+2026, U+2039-203A;
+        unicode-range:
+          U+0020-007E, U+00A0, U+00A9, U+00AB, U+00AD-00AE, U+00B0, U+00B7,
+          U+00BB, U+00D7, U+0412-0414, U+2013-2014, U+2018-2019, U+201C-201E,
+          U+2022, U+2026, U+2039-203A;
       }
 
       /* У Oranienbaum знака рубля нет вовсе: цена «38 000 ₽» набиралась
@@ -2910,7 +2938,6 @@
           </div>
         </section>
 
-
         <!-- Бегущая строка. Две одинаковые половины: на -50% лента
              перескакивает в начало и шва не видно. -->
         <!-- aria-hidden сидит на самой ленте, а не на обёртке: внутри
@@ -2941,7 +2968,12 @@
         </div>
 
         <!-- СРАВНЕНИЕ -->
-        <section id="why" class="amb amb-noise" data-num="02" data-name="Разница">
+        <section
+          id="why"
+          class="amb amb-noise"
+          data-num="02"
+          data-name="Разница"
+        >
           <div class="shell">
             <h2 data-enter="rise">
               Одни и те же данные пересказывают или пролистывают
@@ -2969,7 +3001,6 @@
             </div>
           </div>
         </section>
-
 
         <!-- Разворот на странице ровно один. Три цитаты разбавляли друг
              друга; одна сильная держит интонацию всей страницы.
@@ -3043,7 +3074,12 @@
 
                   <path id="ribdim" d="" fill="var(--ribbon-dim)"></path>
                   <g clip-path="url(#thrclip)">
-                    <path id="riblit" d="" fill="url(#thr)" filter="url(#thrglow)"></path>
+                    <path
+                      id="riblit"
+                      d=""
+                      fill="url(#thr)"
+                      filter="url(#thrglow)"
+                    ></path>
                   </g>
 
                   <circle class="dot" cx="60" cy="208" r="7"></circle>
@@ -3058,7 +3094,13 @@
                   <text class="num" x="630" y="20">4</text>
                   <text class="num" x="770" y="214">5</text>
 
-                  <circle class="head" id="head" cx="60" cy="208" r="6"></circle>
+                  <circle
+                    class="head"
+                    id="head"
+                    cx="60"
+                    cy="208"
+                    r="6"
+                  ></circle>
 
                   <text class="axis" x="40" y="252">начало</text>
                   <text class="axis" x="800" y="252" text-anchor="end">
@@ -3099,7 +3141,12 @@
         </section>
 
         <!-- КАК ПРОХОДИТ -->
-        <section id="how" class="amb amb-rings" data-num="04" data-name="Занятие">
+        <section
+          id="how"
+          class="amb amb-rings"
+          data-num="04"
+          data-name="Занятие"
+        >
           <div class="shell">
             <h2 data-enter="rise">Два часа, и половина из них про ваш текст</h2>
 
@@ -3182,9 +3229,13 @@
           </div>
         </section>
 
-
         <!-- ВЕДУЩИЙ -->
-        <section id="host" class="amb amb-window" data-num="06" data-name="Ведущая">
+        <section
+          id="host"
+          class="amb amb-window"
+          data-num="06"
+          data-name="Ведущая"
+        >
           <div class="shell">
             <h2 data-enter="rise">Кто ведёт</h2>
             <div class="host" data-enter="up" style="--d: 0.1s">
@@ -3208,7 +3259,12 @@
         </section>
 
         <!-- ОТЗЫВЫ -->
-        <section id="voices" class="amb amb-voices" data-num="07" data-name="Отзывы">
+        <section
+          id="voices"
+          class="amb amb-voices"
+          data-num="07"
+          data-name="Отзывы"
+        >
           <div class="shell">
             <h2 data-enter="rise">Что меняется на практике</h2>
 
@@ -3242,7 +3298,6 @@
             </div>
           </div>
         </section>
-
 
         <!-- ЦЕНА -->
         <section id="price" class="amb amb-calm" data-num="08" data-name="Цена">
@@ -3293,7 +3348,12 @@
         </section>
 
         <!-- ВОЗРАЖЕНИЯ -->
-        <section id="faq" class="amb amb-weave" data-num="09" data-name="Вопросы">
+        <section
+          id="faq"
+          class="amb amb-weave"
+          data-num="09"
+          data-name="Вопросы"
+        >
           <div class="shell">
             <h2 data-enter="rise">Отвечаю прямо</h2>
 
@@ -3484,7 +3544,10 @@
 
         function setupHead(h, budget, minStep, maxStep) {
           var n = cutToChars(h);
-          var step = Math.max(minStep, Math.min(maxStep, Math.round(budget / n)));
+          var step = Math.max(
+            minStep,
+            Math.min(maxStep, Math.round(budget / n)),
+          );
           h.style.setProperty("--step", step + "ms");
         }
 
@@ -3499,13 +3562,12 @@
         if (heroHead) setupHead(heroHead, 1900, 26, 46);
 
         var pending = [].slice.call(
-          document.querySelectorAll(
-            "[data-enter], .step, .final, .kin, .bg",
-          ),
+          document.querySelectorAll("[data-enter], .step, .final, .kin, .bg"),
         );
 
         function showAll() {
-          for (var i = 0; i < pending.length; i++) pending[i].classList.add("in");
+          for (var i = 0; i < pending.length; i++)
+            pending[i].classList.add("in");
           pending = [];
         }
 
@@ -3564,7 +3626,11 @@
           torchX += (torchTX - torchX) * 0.11 * dt;
           torchY += (torchTY - torchY) * 0.11 * dt;
           torch.style.transform =
-            "translate3d(" + Math.round(torchX) + "px," + Math.round(torchY) + "px,0)";
+            "translate3d(" +
+            Math.round(torchX) +
+            "px," +
+            Math.round(torchY) +
+            "px,0)";
           magnetStep();
         }
 
@@ -3630,7 +3696,8 @@
              повторял каждое дрожание руки и на мелких движениях дёргался
              влево-вправо. Округление до целого пикселя убрано по той же
              причине: оно превращало плавный ход в ступеньки по 1 px. */
-          var want = fine && ptrLive ? (window.innerWidth / 2 - ptrX) * 0.022 : 0;
+          var want =
+            fine && ptrLive ? (window.innerWidth / 2 - ptrX) * 0.022 : 0;
           smokeSX += (want - smokeSX) * 0.04;
           if (Math.abs(smokeSX) < 0.01) smokeSX = 0;
           var sx = smokeSX.toFixed(2);
@@ -3910,7 +3977,8 @@
           var mid = window.innerHeight * 0.45;
           var cur = null;
           for (var i = 0; i < numbered.length; i++) {
-            if (numbered[i].getBoundingClientRect().top <= mid) cur = numbered[i];
+            if (numbered[i].getBoundingClientRect().top <= mid)
+              cur = numbered[i];
           }
           if (!cur) {
             railNum.className = "rail-num";
@@ -3921,7 +3989,11 @@
           if (key !== lastNum) {
             lastNum = key;
             railNum.innerHTML =
-              "<b>" + key + "</b><span>" + cur.getAttribute("data-name") + "</span>";
+              "<b>" +
+              key +
+              "</b><span>" +
+              cur.getAttribute("data-name") +
+              "</span>";
           }
           railNum.className = "rail-num on";
         }
@@ -3932,7 +4004,10 @@
 
         function countersStep() {
           if (countersDone || !counters.length) return;
-          if (counters[0].getBoundingClientRect().top > window.innerHeight * 0.9)
+          if (
+            counters[0].getBoundingClientRect().top >
+            window.innerHeight * 0.9
+          )
             return;
           countersDone = true;
           if (reduce) return;
@@ -4522,7 +4597,10 @@
             });
             /* Клавиатуре нужен перенос фокуса, иначе ссылка «К содержанию»
                прокручивает страницу, а Tab продолжает с прежнего места. */
-            if (target.hasAttribute("tabindex") || /^(A|BUTTON|INPUT)$/.test(target.tagName)) {
+            if (
+              target.hasAttribute("tabindex") ||
+              /^(A|BUTTON|INPUT)$/.test(target.tagName)
+            ) {
               target.focus({ preventScroll: true });
             }
             if (history.replaceState) history.replaceState(null, "", id);
